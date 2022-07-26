@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".activities.WelcomeActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivLogoImage"
+            android:layout_width="@dimen/width_logo_image"
+            android:layout_height="@dimen/height_logo_image"
+            android:layout_marginTop="@dimen/margin_top_logo_image"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/placeholder_batman_movie_logo_image"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivLogoImage"
+            android:layout_centerHorizontal="true"
+            android:text="@string/lbl_welcome"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_heading_2x"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvWelcomeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@string/lbl_hello_welcome_to_galaxy_app"
+            android:textColor="@color/colorSecondaryText"
+            android:layout_below="@id/tvWelcome"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_regular_2x"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnGetStarted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingTop="@dimen/margin_medium_2"
+            android:paddingBottom="@dimen/margin_medium_2"
+            android:layout_marginBottom="@dimen/margin_xxlarge"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:text="@string/lbl_get_started_btn"
+            android:textSize="@dimen/text_regular_2x"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
+            android:background="@drawable/background_get_started_button"/>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

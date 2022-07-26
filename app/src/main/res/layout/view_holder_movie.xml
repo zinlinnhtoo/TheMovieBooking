@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_medium_2"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivMovie"
+        android:layout_width="@dimen/width_movie_view_holder"
+        android:layout_height="@dimen/height_movie"
+        app:srcCompat="@drawable/placeholder_the_boys_image"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/roundedMovieImageView"
+        android:layout_marginTop="@dimen/margin_card_medium_2" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMovieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The Boys"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_regular_2x"
+        android:layout_below="@id/ivMovie"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMovieGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMovieTitle"
+        android:layout_centerHorizontal="true"
+        android:text="Mystery/Adventure"
+        android:textSize="@dimen/text_smaller"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textColor="@color/colorSecondaryText"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMovieTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvMovieGenre"
+        android:layout_centerHorizontal="true"
+        android:text="1hr 45m"
+        android:textSize="@dimen/text_smaller"
+        android:layout_marginTop="@dimen/margin_small"
+        android:textColor="@color/colorSecondaryText"/>
+
+</RelativeLayout>

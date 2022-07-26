@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.themoviebooking.viewpods.LoginButtonViewPod xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/btnloginWithFacebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:background="@drawable/background_get_started_button">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivFacebookButtonLogo"
+            android:layout_width="@dimen/margin_large"
+            android:layout_height="@dimen/margin_large"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:layout_marginBottom="@dimen/margin_medium_2"
+            android:src="@drawable/ic_facebook" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvFacebookButtonLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_toEndOf="@id/ivFacebookButtonLogo"
+            android:text="@string/lbl_sign_in_with_facebook"
+            android:textAllCaps="false"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_regular_2x" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btnloginWithGoogle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_get_started_button"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:layout_below="@id/btnloginWithFacebook">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ivGoogleButtonLogo"
+            android:layout_width="@dimen/margin_large"
+            android:layout_height="@dimen/margin_large"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginTop="@dimen/margin_medium_2"
+            android:layout_marginBottom="@dimen/margin_medium_2"
+            android:src="@drawable/ic_google" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvGoogleButtonLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_xxlarge"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_toEndOf="@id/ivGoogleButtonLogo"
+            android:text="@string/lbl_sign_in_with_google"
+            android:textAllCaps="false"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="@dimen/text_regular_2x" />
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnloginWithGoogle"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_marginTop="@dimen/margin_medium_2"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:background="@drawable/background_get_started_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingTop="@dimen/margin_medium_2"
+        android:paddingBottom="@dimen/margin_medium_2"
+        android:text="@string/lbl_continue"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_regular_2x" />
+
+</com.example.themoviebooking.viewpods.LoginButtonViewPod>

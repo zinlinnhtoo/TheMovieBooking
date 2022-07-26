@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/background_dotted_separator.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable/background_genre_chip.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_get_started_button.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_movie.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_movie_seat_available.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/background_movie_seat_taken.xml" value="0.166" />
+        <entry key="app/src/main/res/drawable/background_profile_image_circle.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_reverse_corner_radius.xml" value="0.191" />
+        <entry key="app/src/main/res/drawable/background_rounded_card.xml" value="0.191" />
+        <entry key="app/src/main/res/drawable/background_rounded_collapsing_toolbar.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_time_chip.xml" value="0.1975" />
+        <entry key="app/src/main/res/drawable/background_voucher_rounded_corner.xml" value="0.191" />
+        <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_white_24dp.xml" value="0.1975" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_movie_date_time.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_movie_detail.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_movie_seat.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_new_payment_card.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_payment_card.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_snack.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/activity_voucher.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/fragment_signin.xml" value="0.33958333333333335" />
+        <entry key="app/src/main/res/layout/view_holder_cast.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/view_holder_credit_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_holder_genre.xml" value="0.7705078125" />
+        <entry key="app/src/main/res/layout/view_holder_movie.xml" value="0.5022222222222222" />
+        <entry key="app/src/main/res/layout/view_holder_movie_date.xml" value="0.35520833333333335" />
+        <entry key="app/src/main/res/layout/view_holder_movie_seat.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/view_holder_movie_time.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/view_holder_movie_time_chip.xml" value="0.4109375" />
+        <entry key="app/src/main/res/layout/view_holder_payment_method.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/view_holder_snack.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/view_pod_login_button.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/layout/view_pod_movie_list.xml" value="0.3541666666666667" />
+        <entry key="app/src/main/res/menu/menu_home.xml" value="0.3541666666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_card_medium">6dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_medium_2">16dp</dimen>
+    <dimen name="margin_card_medium_2">12dp</dimen>
+    <dimen name="margin_medium_3">20dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
+    <dimen name="margin_xlarge">32dp</dimen>
+    <dimen name="margin_xxlarge">48dp</dimen>
+    <dimen name="margin_small_n">4dp</dimen>
+    <dimen name="margin_card_medium_n">8dp</dimen>
+    <dimen name="margin_card_medium_2_n">12dp</dimen>
+    <dimen name="margin_medium_2_n">16dp</dimen>
+    <dimen name="margin_medium_3_n">18dp</dimen>
+    <dimen name="margin_large_n">24dp</dimen>
+    <dimen name="margin_xlarge_n">32dp</dimen>
+    <dimen name="text_smaller">10sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_regular">14sp</dimen>
+    <dimen name="text_regular_2x">16sp</dimen>
+    <dimen name="text_regular_3x">20sp</dimen>
+    <dimen name="text_heading_1x">24sp</dimen>
+    <dimen name="text_heading_2x">32sp</dimen>
+    <dimen name="text_big">40sp</dimen>
+    <dimen name="text_big_2x">60sp</dimen>
+    <dimen name="text_big_3x">80sp</dimen>
+
+
+
+    <dimen name="width_logo_image">180dp</dimen>
+    <dimen name="height_logo_image">250dp</dimen>
+    <dimen name="margin_top_logo_image">180dp</dimen>
+    <dimen name="width_stoke_border">1dp</dimen>
+    <dimen name="margin_top_view_pod_login">64dp</dimen>
+    <dimen name="width_movie_view_holder">140dp</dimen>
+    <dimen name="width_movie">120dp</dimen>
+    <dimen name="height_movie">200dp</dimen>
+    <dimen name="height_toolbar">300dp</dimen>
+    <dimen name="width_profile">60dp</dimen>
+    <dimen name="height_profile">60dp</dimen>
+    <dimen name="width_snack_detail">200dp</dimen>
+    <dimen name="margin_end_snack_price">32dp</dimen>
+    <dimen name="width_button_toggle_group">100dp</dimen>
+    <dimen name="height_button_toggel_group">25dp</dimen>
+    <dimen name="width_counter_toggle_button">30dp</dimen>
+    <dimen name="width_counter">40dp</dimen>
+    <dimen name="width_credit_card">380dp</dimen>
+    <dimen name="width_dash">8dp</dimen>
+    <dimen name="dash_gap">2dp</dimen>
+    <dimen name="width_dash_line">1dp</dimen>
+    <dimen name="height_dot_line">2dp</dimen>
+    <dimen name="max_width_navigation_view">300dp</dimen>
+    <dimen name="margin_top_profile">64dp</dimen>
+
+</resources>

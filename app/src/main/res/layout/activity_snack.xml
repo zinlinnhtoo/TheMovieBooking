@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.SnackActivity">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnGotoPaymentCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="@dimen/margin_medium_2"
+        android:layout_marginEnd="@dimen/margin_medium_2"
+        android:layout_marginBottom="@dimen/margin_medium_2"
+        android:background="@drawable/background_get_started_button"
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingTop="@dimen/margin_medium_2"
+        android:paddingBottom="@dimen/margin_medium_2"
+        android:text="Pay $40.00"
+        android:textAllCaps="false"
+        android:textColor="@color/colorSecondaryText"
+        android:textSize="@dimen/text_regular_2x" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnBack"
+            android:layout_width="@dimen/margin_xlarge"
+            android:layout_height="@dimen/margin_xlarge"
+            android:layout_marginStart="@dimen/margin_medium_2"
+            android:layout_marginTop="@dimen/margin_xlarge"
+            android:layout_marginBottom="@dimen/margin_medium_2"
+            android:elevation="@dimen/margin_medium"
+            app:tint="@color/black"
+            android:src="@drawable/ic_baseline_chevron_left_white_24dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/margin_xxlarge"
+            android:layout_below="@id/btnBack">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvSnack"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etPromoCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rvSnack"
+                    android:layout_marginStart="@dimen/margin_medium_2"
+                    android:layout_marginTop="@dimen/margin_medium_2"
+                    android:layout_marginEnd="@dimen/margin_medium_2"
+                    android:hint="@string/hint_enter_promo_code" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPromoCodeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etPromoCode"
+                    android:layout_alignStart="@id/etPromoCode"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="@string/lbl_don_t_have_any_promo_code" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/btnPromoCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/etPromoCode"
+                    android:layout_alignBaseline="@id/tvPromoCodeLabel"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_medium_2"
+                    android:layout_toEndOf="@id/tvPromoCodeLabel"
+                    android:text="@string/lbl_get_it_now"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvPaymentMethod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPromoCodeLabel"
+                    android:layout_alignStart="@id/tvPromoCodeLabel"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="@string/lbl_payment_method"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_regular_3x"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPaymentMethod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvPaymentMethod"
+                    android:layout_marginStart="@dimen/margin_medium_2"
+                    android:layout_marginTop="@dimen/margin_medium_2"
+                    android:layout_marginEnd="@dimen/margin_medium_2"
+                    android:layout_marginBottom="@dimen/margin_xxlarge" />
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

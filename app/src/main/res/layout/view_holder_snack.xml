@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_medium_2"
+    android:layout_marginEnd="@dimen/margin_medium_2"
+    android:layout_marginTop="@dimen/margin_medium_2"
+    android:layout_marginBottom="@dimen/margin_medium_2">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSnackTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Combo set M"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_regular_2x" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSnackPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tvSnackTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_xlarge"
+        android:text="15$"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_regular_2x" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSnackDetail"
+        android:layout_width="@dimen/width_snack_detail"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvSnackTitle"
+        android:layout_alignStart="@id/tvSnackTitle"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:text="Combo set M 22oz Coke (X1) and medium popcorn (X1)" />
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/btnToggleGroup"
+        android:layout_width="@dimen/width_button_toggle_group"
+        android:layout_height="@dimen/height_button_toggel_group"
+        android:layout_below="@id/tvSnackPrice"
+        android:layout_marginTop="@dimen/margin_card_medium"
+        android:layout_alignParentEnd="true">
+
+        <Button
+            android:id="@+id/btnMinusToggle"
+            android:layout_width="@dimen/width_counter_toggle_button"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_minus_toggle"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly" />
+
+        <Button
+            android:id="@+id/btnSnackCountToggle"
+            android:layout_width="@dimen/width_counter"
+            android:layout_height="wrap_content"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+            android:text="1"/>
+
+        <Button
+            android:id="@+id/btnPlusToggle"
+            android:layout_width="@dimen/width_counter_toggle_button"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_plus_toggle"
+            style="@style/Widget.App.Button.OutlinedButton.IconOnly"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+
+
+</RelativeLayout>
