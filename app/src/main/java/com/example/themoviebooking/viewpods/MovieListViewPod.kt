@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.adapters.MovieListAdapter
+import com.example.themoviebooking.data.vos.MovieVO
 import com.example.themoviebooking.delegates.MovieViewHolderDelegate
 import kotlinx.android.synthetic.main.view_pod_movie_list.view.*
 
@@ -17,6 +18,10 @@ class MovieListViewPod @JvmOverloads constructor(
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+    }
+
+    fun setData(movieList: List<MovieVO>) {
+        mMovieListAdapter.setNewData(movieList)
     }
 
     fun setUpMovieListViewPod(delegate: MovieViewHolderDelegate) {

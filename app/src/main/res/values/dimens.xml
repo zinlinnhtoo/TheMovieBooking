@@ -37,7 +37,7 @@
     <dimen name="margin_top_view_pod_login">64dp</dimen>
     <dimen name="width_movie_view_holder">140dp</dimen>
     <dimen name="width_movie">120dp</dimen>
-    <dimen name="height_movie">200dp</dimen>
+    <dimen name="height_movie">180dp</dimen>
     <dimen name="height_toolbar">300dp</dimen>
     <dimen name="width_profile">60dp</dimen>
     <dimen name="height_profile">60dp</dimen>
@@ -54,5 +54,6 @@
     <dimen name="height_dot_line">2dp</dimen>
     <dimen name="max_width_navigation_view">300dp</dimen>
     <dimen name="margin_top_profile">64dp</dimen>
+    <dimen name="width_movie_item">128dp</dimen>
 
 </resources>

@@ -23,14 +23,13 @@ class PaymentCardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_payment_card)
 
         setUpListener()
-        setUpCarouselCreditCardlRecyclerView()
+        setUpCarouselCreditCardRecyclerView()
     }
 
-    private fun setUpCarouselCreditCardlRecyclerView() {
+    private fun setUpCarouselCreditCardRecyclerView() {
         mCreditCardAdapter = CreditCardAdapter()
         rvCarouselCreditCard.adapter = mCreditCardAdapter
         rvCarouselCreditCard.setInfinite(true)
-        rvCarouselCreditCard.set3DItem(true)
     }
 
     private fun setUpListener() {

@@ -4,13 +4,20 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.LoginViewPagerAdapter
+import com.example.themoviebooking.data.models.MovieBookingModel
+import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.delegates.LoginFormResultDelegate
+import com.example.themoviebooking.delegates.RegisterFormResultDelegate
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.view_pod_login_button.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginFormResultDelegate, RegisterFormResultDelegate {
+
+    private var mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -36,5 +43,35 @@ class LoginActivity : AppCompatActivity() {
             }
         }.attach()
 
+    }
+
+    override fun onLogin(email: String, password: String) {
+        mMovieBookingModel.getLoginUser(
+            email = email,
+            password = password,
+            onSuccess = {
+                startActivity(HomeActivity.newIntent(this))
+                Log.i("Login", "Network onSuccess worked")
+            },
+            onFailure = {
+                Snackbar.make(window.decorView, it, Snackbar.LENGTH_LONG).show()
+            }
+        )
+    }
+
+    override fun onRegister(email: String, password: String, name: String, phone: String) {
+        mMovieBookingModel.getRegisterUser(
+            email = email,
+            name = name,
+            phone = phone,
+            password = password,
+            onSuccess = {
+                startActivity(HomeActivity.newIntent(this))
+                Log.i("Register", "Network onSuccess worked")
+            },
+            onFailure = {
+                Snackbar.make(window.decorView, it, Snackbar.LENGTH_LONG).show()
+            }
+        )
     }
 }

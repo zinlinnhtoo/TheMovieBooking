@@ -1,12 +1,18 @@
 package com.example.themoviebooking.activities
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.themoviebooking.R
+import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.data.models.TheMovieDBModel
+import com.example.themoviebooking.data.models.TheMovieDBModelImpl
 import com.example.themoviebooking.delegates.MovieViewHolderDelegate
+import com.example.themoviebooking.utils.showErrorToast
 import com.example.themoviebooking.viewpods.MovieListViewPod
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -15,7 +21,16 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
     lateinit var mNowShowingMovieListViewPod: MovieListViewPod
     lateinit var mComingSoonMovieListViewPod: MovieListViewPod
 
+    private val mMovieBookingModel = MovieBookingModelImpl
+    private val mTheMovieDBModel = TheMovieDBModelImpl
+
     var actionBarDrawerToggle: ActionBarDrawerToggle? = null
+
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, HomeActivity::class.java)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +39,8 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
         setUpToolbar()
         setUpMovieViewPod()
         setUpDrawer()
+
+        requestData()
 
     }
 
@@ -74,5 +91,37 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
 
     override fun onTapMovie() {
         startActivity(MovieDetailActivity.newIntent(this))
+    }
+
+    private fun requestData() {
+
+        mMovieBookingModel.getUser(
+            onSuccess = {
+                tvProfileName.text = it.name
+                tvNavigationProfileName.text = it.name
+                tvNavigationEmail.text = it.email
+            },
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
+
+        mTheMovieDBModel.getNowShowingMovie(
+            onSuccess = {
+                mNowShowingMovieListViewPod.setData(it)
+            },
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
+
+        mTheMovieDBModel.getComingSoonMovie(
+            onSuccess = {
+                mComingSoonMovieListViewPod.setData(it)
+            },
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
     }
 }

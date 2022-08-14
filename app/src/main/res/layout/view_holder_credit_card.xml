@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_large"
+    android:layout_marginEnd="@dimen/margin_large"
     android:background="@drawable/background_rounded_card"
-    android:layout_marginStart="@dimen/margin_medium_2"
-    android:layout_marginEnd="@dimen/margin_medium_2"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -45,8 +45,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvCardNumber"
-        android:layout_marginEnd="@dimen/margin_medium_2"
         android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/margin_medium_2"
         android:text="@string/lbl_expires"
         android:textColor="@color/colorSecondaryText" />
 

@@ -95,6 +95,7 @@
                 android:layout_marginEnd="@dimen/margin_medium_2" />
 
             <include
+                android:id="@+id/vpRegisterButton"
                 layout="@layout/view_pod_login_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -20,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvEmail"
+        android:inputType="textEmailAddress"
         android:layout_marginStart="@dimen/margin_medium_2"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_medium_2" />
@@ -59,6 +60,7 @@
         android:textColor="@color/colorSecondaryText"/>
 
     <include
+        android:id="@+id/vpLoginButton"
         layout="@layout/view_pod_login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
