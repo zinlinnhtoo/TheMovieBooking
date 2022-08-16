@@ -1,5 +1,6 @@
 package com.example.themoviebooking.data.models
 
+import com.example.themoviebooking.data.vos.CinemaVO
 import com.example.themoviebooking.data.vos.UserVO
 
 interface MovieBookingModel {
@@ -27,6 +28,13 @@ interface MovieBookingModel {
 
     fun getLogout(
         onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getCinemaDayTimeslot(
+        movieId: String,
+        date: String,
+        onSuccess: (List<CinemaVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 }

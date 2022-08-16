@@ -1,10 +1,8 @@
 package com.example.themoviebooking.network
 
+import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
 import com.example.themoviebooking.network.responses.LoginUserResponse
-import com.example.themoviebooking.utils.API_LOGIN_USER
-import com.example.themoviebooking.utils.API_LOG_OUT
-import com.example.themoviebooking.utils.API_REGISTER_USER
-import com.example.themoviebooking.utils.API_USER_PROFILE
+import com.example.themoviebooking.utils.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -35,5 +33,12 @@ interface TheMovieBookingApi {
     fun getLogout(
         @Header("Authorization") token: String
     ): Call<LoginUserResponse>
+
+    @GET(API_CINEMA_DAY_TIMESLOT)
+    fun getCinemaDayTimeslot(
+        @Header("Authorization") token: String,
+        @Query(PARAM_MOVIE_ID) movieId: String,
+        @Query(PARAM_DATE) date: String
+    ): Call<CinemaDayTimeslotResponse>
 
 }

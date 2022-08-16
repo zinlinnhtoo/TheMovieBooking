@@ -10,9 +10,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Available In"
-        android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="@dimen/text_regular_3x"/>
+        android:textSize="@dimen/text_regular_3x"
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTimeChip"

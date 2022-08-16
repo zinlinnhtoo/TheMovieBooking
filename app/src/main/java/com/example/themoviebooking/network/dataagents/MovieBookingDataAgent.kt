@@ -1,5 +1,6 @@
 package com.example.themoviebooking.network.dataagents
 
+import com.example.themoviebooking.data.vos.CinemaVO
 import com.example.themoviebooking.data.vos.UserVO
 
 interface MovieBookingDataAgent {
@@ -29,6 +30,14 @@ interface MovieBookingDataAgent {
     fun getLogout(
         token: String,
         onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getCinemaDayTimeslot(
+        token: String,
+        movieId: String,
+        date: String,
+        onSuccess: (List<CinemaVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 }

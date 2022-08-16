@@ -7,15 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
 import com.example.themoviebooking.adapters.MovieDateAdapter
 import com.example.themoviebooking.adapters.MovieTimeAdapter
-import com.example.themoviebooking.adapters.TimeChipAdapter
+import com.example.themoviebooking.data.models.MovieBookingModel
+import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.DateVO
 import com.example.themoviebooking.delegates.MovieDateDelegate
-import com.example.themoviebooking.viewholders.MovieTimeChipViewHolder
-import com.google.android.material.snackbar.Snackbar
+import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_movie_date_time.*
-import kotlinx.android.synthetic.main.view_holder_movie_time.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,9 +26,15 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
 
     private var mMovieDateList: MutableList<DateVO> = mutableListOf()
 
+    private var mMovieId: Int? = null
+
+    private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
+
     companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, MovieDateTimeActivity::class.java)
+        fun newIntent(context: Context, movieId: Int): Intent {
+            val intent = Intent(context, MovieDateTimeActivity::class.java)
+            intent.putExtra(EXTRA_MOVIE_ID, movieId)
+            return intent
         }
     }
 
@@ -40,6 +46,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
         setUpListener()
         setUpMovieTimeRecyclerView()
         addNextTwoWeekDate()
+
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
     }
 
     private fun setUpMovieTimeRecyclerView() {
@@ -66,7 +74,21 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
     }
 
     override fun onTapMovieDate(date: DateVO) {
-        Snackbar.make(window.decorView, "${date.id} ${date.year}-${date.month}-${date.day}", Snackbar.LENGTH_LONG).show()
+        val formattedDate = "${date.year}-${date.month}-${date.day}"
+        requestData(formattedDate)
+    }
+
+    private fun requestData(date: String) {
+        mMovieBookingModel.getCinemaDayTimeslot(
+            movieId = mMovieId?.toString().orEmpty(),
+            date = date,
+            onSuccess = {
+                mMovieTimeAdapter.setNewData(it)
+            },
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
     }
 
     @SuppressLint("SimpleDateFormat")

@@ -22,10 +22,12 @@ class MovieDetailActivity : AppCompatActivity() {
     lateinit var mCastAdapter: CastAdapter
     lateinit var mGenreChipAdapter: GenreChipAdapter
 
+    private var mMovieId: Int? = null
+
     private var mTheMovieDBModel: TheMovieDBModel = TheMovieDBModelImpl
 
     companion object {
-        private const val EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID"
+        const val EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID"
         fun newIntent(context: Context, movieId: Int): Intent {
             val intent = Intent(context, MovieDetailActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
@@ -41,8 +43,8 @@ class MovieDetailActivity : AppCompatActivity() {
         setUpGenreChipRecyclerView()
         setUpListener()
 
-        val movieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
-        movieId?.let {
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mMovieId?.let {
             requestData(it.toString())
         }
 
@@ -60,7 +62,9 @@ class MovieDetailActivity : AppCompatActivity() {
         }
 
         btnGetYourTicket.setOnClickListener{
-            startActivity(MovieDateTimeActivity.newIntent(this))
+            mMovieId?.let {
+                startActivity(MovieDateTimeActivity.newIntent(this, it))
+            }
         }
     }
 

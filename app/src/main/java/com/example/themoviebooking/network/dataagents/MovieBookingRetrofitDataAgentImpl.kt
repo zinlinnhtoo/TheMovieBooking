@@ -1,7 +1,9 @@
 package com.example.themoviebooking.network.dataagents
 
+import com.example.themoviebooking.data.vos.CinemaVO
 import com.example.themoviebooking.data.vos.UserVO
 import com.example.themoviebooking.network.TheMovieBookingApi
+import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
 import com.example.themoviebooking.network.responses.LoginUserResponse
 import com.example.themoviebooking.utils.BEARER
 import com.example.themoviebooking.utils.THE_MOVIE_BOOKING_BASE_URL
@@ -152,6 +154,39 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                 }
 
                 override fun onFailure(call: Call<LoginUserResponse>, t: Throwable) {
+                    onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getCinemaDayTimeslot(
+        token: String,
+        movieId: String,
+        date: String,
+        onSuccess: (List<CinemaVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getCinemaDayTimeslot(
+            token = BEARER + token,
+            movieId = movieId,
+            date = date
+        )?.enqueue(
+            object : Callback<CinemaDayTimeslotResponse> {
+                override fun onResponse(
+                    call: Call<CinemaDayTimeslotResponse>,
+                    response: Response<CinemaDayTimeslotResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.let {
+                            onSuccess(it)
+                        }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<CinemaDayTimeslotResponse>, t: Throwable) {
                     onFailure(t.message ?: "")
                 }
             }

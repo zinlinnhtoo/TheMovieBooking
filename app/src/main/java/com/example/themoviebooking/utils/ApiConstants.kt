@@ -7,6 +7,10 @@ const val API_LOGIN_USER = "/api/v1/email-login"
 const val API_REGISTER_USER = "/api/v1/register"
 const val API_USER_PROFILE = "/api/v1/profile"
 const val API_LOG_OUT = "/api/v1/logout"
+const val API_CINEMA_DAY_TIMESLOT = "/api/v1/cinema-day-timeslots"
+
+const val PARAM_MOVIE_ID = "movie_id"
+const val PARAM_DATE = "date"
 
 //TMDB
 const val THE_MOVIE_DB_BASE_URL = "https://api.themoviedb.org"
