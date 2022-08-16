@@ -55,5 +55,6 @@
     <dimen name="max_width_navigation_view">300dp</dimen>
     <dimen name="margin_top_profile">64dp</dimen>
     <dimen name="width_movie_item">128dp</dimen>
+    <dimen name="width_date">60dp</dimen>
 
 </resources>
