@@ -63,4 +63,15 @@ object MovieBookingModelImpl: MovieBookingModel {
             onFailure = onFailure
         )
     }
+
+    override fun getLogout(onSuccess: (String) -> Unit, onFailure: (String) -> Unit) {
+        mMovieBookingDataAgent.getLogout(
+            token = userToken.orEmpty(),
+            onSuccess = {
+                this.userToken = null
+                onSuccess(it)
+            },
+            onFailure = onFailure
+        )
+    }
 }

@@ -20,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/ivMovie"
         android:layout_marginTop="@dimen/margin_card_medium_2"
-        android:layout_centerHorizontal="true"
         android:text="The Boys"
         android:textColor="@color/black"
         android:textSize="@dimen/text_regular_2x"

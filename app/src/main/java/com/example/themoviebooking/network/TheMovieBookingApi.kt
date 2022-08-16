@@ -2,6 +2,7 @@ package com.example.themoviebooking.network
 
 import com.example.themoviebooking.network.responses.LoginUserResponse
 import com.example.themoviebooking.utils.API_LOGIN_USER
+import com.example.themoviebooking.utils.API_LOG_OUT
 import com.example.themoviebooking.utils.API_REGISTER_USER
 import com.example.themoviebooking.utils.API_USER_PROFILE
 import retrofit2.Call
@@ -27,6 +28,11 @@ interface TheMovieBookingApi {
 
     @GET(API_USER_PROFILE)
     fun getUser(
+        @Header("Authorization") token: String
+    ): Call<LoginUserResponse>
+
+    @POST(API_LOG_OUT)
+    fun getLogout(
         @Header("Authorization") token: String
     ): Call<LoginUserResponse>
 

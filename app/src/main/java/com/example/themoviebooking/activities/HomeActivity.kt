@@ -9,7 +9,6 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.themoviebooking.R
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
-import com.example.themoviebooking.data.models.TheMovieDBModel
 import com.example.themoviebooking.data.models.TheMovieDBModelImpl
 import com.example.themoviebooking.delegates.MovieViewHolderDelegate
 import com.example.themoviebooking.utils.showErrorToast
@@ -41,6 +40,18 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
         setUpDrawer()
 
         requestData()
+
+        llLogOut.setOnClickListener {
+            mMovieBookingModel.getLogout(
+                onSuccess = {
+                    startActivity(LoginActivity.newLogOutIntent(this, it))
+                },
+                onFailure = {
+                    showErrorToast(it, this)
+                }
+            )
+
+        }
 
     }
 
@@ -89,8 +100,8 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
         }
     }
 
-    override fun onTapMovie() {
-        startActivity(MovieDetailActivity.newIntent(this))
+    override fun onTapMovie(movieId: Int) {
+        startActivity(MovieDetailActivity.newIntent(this, movieId))
     }
 
     private fun requestData() {

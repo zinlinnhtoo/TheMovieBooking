@@ -1,7 +1,9 @@
 package com.example.themoviebooking.network.dataagents
 
+import com.example.themoviebooking.data.vos.ActorVO
 import com.example.themoviebooking.data.vos.MovieVO
 import com.example.themoviebooking.network.TheMovieDBApi
+import com.example.themoviebooking.network.responses.ActorResponse
 import com.example.themoviebooking.network.responses.MovieResponse
 import com.example.themoviebooking.utils.THE_MOVIE_DB_BASE_URL
 import okhttp3.OkHttpClient
@@ -72,6 +74,57 @@ object TheMovieDBRetrofitDataAgentImpl: TheMovieDBDataAgent {
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getMovieDetail(
+        movieId: String,
+        onSuccess: (MovieVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieDBApi?.getMovieDetail(
+            movieId = movieId
+        )?.enqueue(
+            object : Callback<MovieVO> {
+                override fun onResponse(call: Call<MovieVO>, response: Response<MovieVO>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let(onSuccess)
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<MovieVO>, t: Throwable) {
+                    onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getCreditsByMovie(
+        movieId: String,
+        onSuccess: (List<ActorVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieDBApi?.getCreditsByMovie(
+            movieId = movieId
+        )?.enqueue(
+            object : Callback<ActorResponse> {
+                override fun onResponse(
+                    call: Call<ActorResponse>,
+                    response: Response<ActorResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.cast?.let(onSuccess)
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<ActorResponse>, t: Throwable) {
                     onFailure(t.message ?: "")
                 }
             }

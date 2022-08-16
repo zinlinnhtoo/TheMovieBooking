@@ -50,7 +50,7 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                             if (it.data != null && it.token != null) {
                                 onSuccess(it.data to it.token)
                             } else {
-                                onFailure("Request data are null")
+                                onFailure("Something's wrong")
                             }
                         }
                     } else {
@@ -89,7 +89,7 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                             if (it.data != null && it.token != null) {
                                 onSuccess(it.data to it.token)
                             } else {
-                                onFailure("Request data are null")
+                                onFailure("Something's Wrong")
                             }
                         }
                     } else {
@@ -115,6 +115,35 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                 ) {
                     if (response.isSuccessful) {
                         response.body()?.data?.let {
+                            onSuccess(it)
+                        }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginUserResponse>, t: Throwable) {
+                    onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getLogout(
+        token: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getLogout(
+            token = BEARER + token
+        )?.enqueue(
+            object : Callback<LoginUserResponse> {
+                override fun onResponse(
+                    call: Call<LoginUserResponse>,
+                    response: Response<LoginUserResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.message?.let {
                             onSuccess(it)
                         }
                     } else {

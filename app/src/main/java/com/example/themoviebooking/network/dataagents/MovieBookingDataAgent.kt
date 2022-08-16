@@ -25,4 +25,10 @@ interface MovieBookingDataAgent {
         onSuccess: (UserVO) -> Unit,
         onFailure: (String) -> Unit
     )
+
+    fun getLogout(
+        token: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

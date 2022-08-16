@@ -10,16 +10,18 @@ import kotlinx.android.synthetic.main.view_holder_movie.view.*
 
 class MovieViewHolder(itemView: View, private val mDelegate: MovieViewHolderDelegate) : RecyclerView.ViewHolder(itemView) {
 
-    private var mMovieVO: MovieVO? = null
+    private var mMovie: MovieVO? = null
 
     init {
         itemView.setOnClickListener {
-            mDelegate.onTapMovie()
+            mMovie?.let {
+                mDelegate.onTapMovie(it.id)
+            }
         }
     }
 
     fun bindData(movie: MovieVO) {
-        mMovieVO = movie
+        mMovie = movie
 
         Glide.with(itemView.context)
             .load("$IMAGE_BASE_URL${movie.posterPath}")

@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.LoginViewPagerAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
@@ -20,9 +21,19 @@ class LoginActivity : AppCompatActivity(), LoginFormResultDelegate, RegisterForm
     private var mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
     companion object {
+
+        private const val LOG_OUT_MESSAGE = "LOG_OUT_MESSAGE"
+
+        fun newLogOutIntent(context: Context, message: String): Intent {
+            val intent = Intent(context, LoginActivity::class.java)
+            intent.putExtra(LOG_OUT_MESSAGE, message)
+            return intent
+        }
+
         fun newIntent(context: Context): Intent {
             return Intent(context, LoginActivity::class.java)
         }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +53,11 @@ class LoginActivity : AppCompatActivity(), LoginFormResultDelegate, RegisterForm
                 }
             }
         }.attach()
+
+        val logoutMessage = intent?.getStringExtra(LOG_OUT_MESSAGE)
+        logoutMessage?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
 
     }
 

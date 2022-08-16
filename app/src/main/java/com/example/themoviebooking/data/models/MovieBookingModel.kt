@@ -24,4 +24,9 @@ interface MovieBookingModel {
         onSuccess: (UserVO) -> Unit,
         onFailure: (String) -> Unit
     )
+
+    fun getLogout(
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

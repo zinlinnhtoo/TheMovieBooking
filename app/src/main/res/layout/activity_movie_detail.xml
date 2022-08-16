@@ -70,6 +70,7 @@
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivMoviePoster"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_toolbar"
                 android:src="@drawable/placeholder_the_boys_image"
@@ -123,13 +124,13 @@
                     android:textSize="@dimen/text_regular_2x" />
 
                 <RatingBar
-                    android:id="@+id/movieRatingBar"
+                    android:id="@+id/rbMovieRatingBar"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvMovieTitle"
-                    android:layout_marginTop="@dimen/margin_card_medium"
                     android:layout_marginStart="@dimen/margin_medium_2"
+                    android:layout_marginTop="@dimen/margin_card_medium"
                     android:layout_toEndOf="@id/tvMoviePlayTime"
                     android:numStars="5"
                     android:rating="3.5"
@@ -139,23 +140,23 @@
                     android:id="@+id/tvImdbLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label_imdb"
-                    android:textSize="@dimen/text_regular_2x"
-                    android:layout_toEndOf="@id/movieRatingBar"
                     android:layout_below="@id/tvMovieTitle"
+                    android:layout_marginStart="@dimen/margin_medium_2"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_medium_2"/>
+                    android:layout_toEndOf="@id/rbMovieRatingBar"
+                    android:text="@string/label_imdb"
+                    android:textSize="@dimen/text_regular_2x" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvImdb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="6.6"
-                    android:textSize="@dimen/text_regular_2x"
-                    android:layout_toEndOf="@id/tvImdbLabel"
                     android:layout_below="@id/tvMovieTitle"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginStart="@dimen/margin_small"/>
+                    android:layout_toEndOf="@id/tvImdbLabel"
+                    android:text="6.6"
+                    android:textSize="@dimen/text_regular_2x" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvGenreChip"
