@@ -55,7 +55,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         mMovieDateList.firstOrNull()?.let {
             it.isSelected = true
             val date = it.formattedDate()
-            requestData(date)
+            requestTimeslotData(date)
         }
     }
 
@@ -85,15 +85,11 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     override fun onTapMovieDate(selectedDate: DateVO) {
 
         for (date in mMovieDateList) {
-            if (date.id == selectedDate.id) {
-                date.isSelected = true
-                mMovieDateAdapter.setNewData(mMovieDateList)
-            } else {
-                date.isSelected = false
-            }
+            date.isSelected = date.id == selectedDate.id
         }
+        mMovieDateAdapter.setNewData(mMovieDateList)
         val formattedDate = selectedDate.formattedDate()
-        requestData(formattedDate)
+        requestTimeslotData(formattedDate)
     }
 
     override fun onTapTime() {
@@ -101,7 +97,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         Toast.makeText(this, "Tap Time slot", Toast.LENGTH_SHORT).show()
     }
 
-    private fun requestData(date: String) {
+    private fun requestTimeslotData(date: String) {
         mMovieBookingModel.getCinemaDayTimeslot(
             movieId = mMovieId?.toString().orEmpty(),
             date = date,
