@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.19814148681055155" />
         <entry key="app/src/main/res/drawable/background_dotted_separator.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/background_genre_chip.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/background_get_started_button.xml" value="0.1975" />

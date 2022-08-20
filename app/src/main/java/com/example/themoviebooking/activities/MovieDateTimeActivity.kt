@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
@@ -14,12 +16,13 @@ import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.DateVO
 import com.example.themoviebooking.delegates.MovieDateDelegate
+import com.example.themoviebooking.delegates.MovieTimeDelegate
 import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_movie_date_time.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
+class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeDelegate {
 
     lateinit var mMovieDateAdapter: MovieDateAdapter
     lateinit var mMovieTimeAdapter: MovieTimeAdapter
@@ -48,10 +51,16 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
         addNextTwoWeekDate()
 
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+
+        mMovieDateList.firstOrNull()?.let {
+            it.isSelected = true
+            val date = it.formattedDate()
+            requestData(date)
+        }
     }
 
     private fun setUpMovieTimeRecyclerView() {
-        mMovieTimeAdapter = MovieTimeAdapter()
+        mMovieTimeAdapter = MovieTimeAdapter(this)
         rvMovieTime.adapter = mMovieTimeAdapter
         rvMovieTime.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
@@ -73,9 +82,23 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate {
         mMovieDateAdapter.setNewData(mMovieDateList)
     }
 
-    override fun onTapMovieDate(date: DateVO) {
-        val formattedDate = "${date.year}-${date.month}-${date.day}"
+    override fun onTapMovieDate(selectedDate: DateVO) {
+
+        for (date in mMovieDateList) {
+            if (date.id == selectedDate.id) {
+                date.isSelected = true
+                mMovieDateAdapter.setNewData(mMovieDateList)
+            } else {
+                date.isSelected = false
+            }
+        }
+        val formattedDate = selectedDate.formattedDate()
         requestData(formattedDate)
+    }
+
+    override fun onTapTime() {
+        Log.i("GG", "OnTap")
+        Toast.makeText(this, "Tap Time slot", Toast.LENGTH_SHORT).show()
     }
 
     private fun requestData(date: String) {

@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
 import com.example.themoviebooking.data.vos.CinemaVO
+import com.example.themoviebooking.delegates.MovieTimeDelegate
 import com.example.themoviebooking.viewholders.MovieTimeViewHolder
 
-class MovieTimeAdapter: RecyclerView.Adapter<MovieTimeViewHolder>() {
+class MovieTimeAdapter(private val mDelegate: MovieTimeDelegate): RecyclerView.Adapter<MovieTimeViewHolder>() {
 
     private var mCinemaList: List<CinemaVO> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieTimeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_time, parent, false)
-        return MovieTimeViewHolder(view)
+        return MovieTimeViewHolder(view, mDelegate)
     }
 
     override fun onBindViewHolder(holder: MovieTimeViewHolder, position: Int) {

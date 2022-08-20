@@ -6,15 +6,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
 import com.example.themoviebooking.data.vos.TimeSlotVO
+import com.example.themoviebooking.delegates.MovieTimeDelegate
 import com.example.themoviebooking.viewholders.MovieTimeslotViewHolder
 
-class TimeslotAdapter: RecyclerView.Adapter<MovieTimeslotViewHolder>() {
+class TimeslotAdapter(private val mDelegate: MovieTimeDelegate): RecyclerView.Adapter<MovieTimeslotViewHolder>() {
 
     private var mTimeSlotList : List<TimeSlotVO> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieTimeslotViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_time_chip, parent, false)
-        return MovieTimeslotViewHolder(view)
+        return MovieTimeslotViewHolder(view, mDelegate)
     }
 
     override fun onBindViewHolder(holder: MovieTimeslotViewHolder, position: Int) {

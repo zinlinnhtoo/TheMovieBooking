@@ -5,5 +5,10 @@ data class DateVO(
     var year: String,
     var month: String,
     var day: String,
-    var weekday: String
-)
+    var weekday: String,
+    var isSelected: Boolean? = false
+) {
+    fun formattedDate(): String {
+        return "${year}-${month}-${day}"
+    }
+}
