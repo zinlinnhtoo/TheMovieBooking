@@ -5,16 +5,17 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_TITLE
 import com.example.themoviebooking.adapters.MovieDateAdapter
 import com.example.themoviebooking.adapters.MovieTimeAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.CinemaVO
 import com.example.themoviebooking.data.vos.DateVO
+import com.example.themoviebooking.data.vos.TimeSlotVO
 import com.example.themoviebooking.delegates.MovieDateDelegate
 import com.example.themoviebooking.delegates.MovieTimeDelegate
 import com.example.themoviebooking.utils.showErrorToast
@@ -31,13 +32,20 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     private var mCinemaList: MutableList<CinemaVO> = mutableListOf()
 
     private var mMovieId: Int? = null
+    private var mMovieTitle: String? = null
+    private var mMovieWeekDay: String? = null
+    private var mMovieDay: String? = null
+    private var mMovieMonth: String? = null
+    private var mMovieTime: String? = null
+    private var mCinemaName: String? = null
 
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
     companion object {
-        fun newIntent(context: Context, movieId: Int): Intent {
+        fun newIntent(context: Context, movieId: Int, movieTitle: String): Intent {
             val intent = Intent(context, MovieDateTimeActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
+            intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
             return intent
         }
     }
@@ -52,11 +60,16 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         addNextTwoWeekDate()
 
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
 
         mMovieDateList.firstOrNull()?.let {
             it.isSelected = true
             val date = it.formattedDate()
             requestTimeslotData(date)
+
+            mMovieWeekDay = it.weekdayInName
+            mMovieDay = it.day
+            mMovieMonth = it.monthInName
         }
     }
 
@@ -72,7 +85,16 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         }
 
         btnNext.setOnClickListener {
-            startActivity(MovieSeatActivity.newIntent(this))
+            mMovieTitle?.let {
+                startActivity(MovieSeatActivity.newIntent(this,
+                    it,
+                    mMovieWeekDay.orEmpty(),
+                    mMovieDay.orEmpty(),
+                    mMovieMonth.orEmpty(),
+                    mMovieTime.orEmpty(),
+                    mCinemaName.orEmpty()
+                ))
+            }
         }
     }
 
@@ -85,6 +107,10 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
 
     override fun onTapMovieDate(selectedDate: DateVO) {
 
+        mMovieWeekDay = selectedDate.weekdayInName
+        mMovieDay = selectedDate.day
+        mMovieMonth = selectedDate.monthInName
+
         for (date in mMovieDateList) {
             date.isSelected = date.id == selectedDate.id
         }
@@ -93,17 +119,18 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         requestTimeslotData(formattedDate)
     }
 
-    override fun onTapTime(cinemaId: Int?, timeslotId: Int?) {
-
-        mCinemaList.forEach { cinema ->
-            cinema.timeSlots.forEach {
-                if (cinema.cinemaId == cinemaId) {
-                    it.isSelected = it.cinemaDayTimeslotId == timeslotId
+    override fun onTapTime(cinema: CinemaVO, timeslot: TimeSlotVO) {
+        mCinemaList.forEach { mCinema ->
+            mCinema.timeSlots.forEach {
+                if (mCinema.cinemaId == cinema.cinemaId) {
+                    it.isSelected = it.cinemaDayTimeslotId == timeslot.cinemaDayTimeslotId
                 } else {
                     it.isSelected = false
                 }
             }
         }
+        mMovieTime = timeslot.startTime
+        mCinemaName = cinema.cinema
         mMovieTimeAdapter.setNewData(mCinemaList)
     }
 
@@ -128,6 +155,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         val month = SimpleDateFormat("MM")
         val day = SimpleDateFormat("dd")
         val weekday = SimpleDateFormat("EEE")
+        val weekDayInName = SimpleDateFormat("EEEE")
+        val monthInName = SimpleDateFormat("MMMM")
 
         for (i in 0..13) {
             val date = DateVO(
@@ -135,7 +164,9 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                 year = year.format(calendar.time),
                 month = month.format(calendar.time),
                 day = day.format(calendar.time),
-                weekday = weekday.format(calendar.time)
+                weekday = weekday.format(calendar.time),
+                monthInName = monthInName.format(calendar.time),
+                weekdayInName = weekDayInName.format(calendar.time)
             )
             calendar.add(Calendar.DATE, 1)
             mMovieDateList.add(i, date)

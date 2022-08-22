@@ -15,7 +15,7 @@ class MovieViewHolder(itemView: View, private val mDelegate: MovieViewHolderDele
     init {
         itemView.setOnClickListener {
             mMovie?.let {
-                mDelegate.onTapMovie(it.id)
+                mDelegate.onTapMovie(it.id, it.title.orEmpty())
             }
         }
     }

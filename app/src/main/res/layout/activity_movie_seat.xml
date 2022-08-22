@@ -54,9 +54,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:text="Detective Pikachu"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/text_heading_1x"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"/>
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvCinema"
@@ -65,8 +65,8 @@
                     android:layout_below="@id/tvMovieName"
                     android:layout_centerHorizontal="true"
                     android:text="Galaxy Cinema - Golden City"
-                    android:textSize="@dimen/text_regular_2x"
-                    android:textColor="@color/colorSecondaryText"/>
+                    android:textColor="@color/colorSecondaryText"
+                    android:textSize="@dimen/text_regular_2x" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvMovieDateTime"
@@ -75,8 +75,8 @@
                     android:layout_below="@id/tvCinema"
                     android:layout_centerHorizontal="true"
                     android:text="Wednesday, 10 May, 07:00 PM"
-                    android:textSize="@dimen/text_regular_2x"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_regular_2x" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvMovieSeat"

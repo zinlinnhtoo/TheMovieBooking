@@ -11,7 +11,6 @@ import com.example.themoviebooking.adapters.CastAdapter
 import com.example.themoviebooking.adapters.GenreChipAdapter
 import com.example.themoviebooking.data.models.TheMovieDBModel
 import com.example.themoviebooking.data.models.TheMovieDBModelImpl
-import com.example.themoviebooking.data.vos.GenreVO
 import com.example.themoviebooking.data.vos.MovieVO
 import com.example.themoviebooking.utils.IMAGE_BASE_URL
 import com.example.themoviebooking.utils.showErrorToast
@@ -23,14 +22,17 @@ class MovieDetailActivity : AppCompatActivity() {
     lateinit var mGenreChipAdapter: GenreChipAdapter
 
     private var mMovieId: Int? = null
+    private var mMovieTitle: String? = null
 
     private var mTheMovieDBModel: TheMovieDBModel = TheMovieDBModelImpl
 
     companion object {
         const val EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID"
-        fun newIntent(context: Context, movieId: Int): Intent {
+        const val EXTRA_MOVIE_TITLE = "EXTRA_MOVIE_TITLE"
+        fun newIntent(context: Context, movieId: Int, movieTitle: String): Intent {
             val intent = Intent(context, MovieDetailActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
+            intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
             return intent
         }
     }
@@ -48,6 +50,8 @@ class MovieDetailActivity : AppCompatActivity() {
             requestData(it.toString())
         }
 
+        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
+
     }
 
     private fun setUpGenreChipRecyclerView() {
@@ -63,7 +67,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         btnGetYourTicket.setOnClickListener{
             mMovieId?.let {
-                startActivity(MovieDateTimeActivity.newIntent(this, it))
+                startActivity(MovieDateTimeActivity.newIntent(this, it, mMovieTitle.orEmpty()))
             }
         }
     }

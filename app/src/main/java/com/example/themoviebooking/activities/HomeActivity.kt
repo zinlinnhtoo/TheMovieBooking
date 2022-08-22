@@ -100,8 +100,8 @@ class HomeActivity : AppCompatActivity(), MovieViewHolderDelegate {
         }
     }
 
-    override fun onTapMovie(movieId: Int) {
-        startActivity(MovieDetailActivity.newIntent(this, movieId))
+    override fun onTapMovie(movieId: Int, movieTitle: String) {
+        startActivity(MovieDetailActivity.newIntent(this, movieId, movieTitle))
     }
 
     private fun requestData() {

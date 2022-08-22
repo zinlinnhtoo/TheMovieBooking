@@ -23,7 +23,7 @@ class MovieTimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         mMovieTimeSlotAdapter = TimeslotAdapter(delegate)
         rvTimeChip.adapter = mMovieTimeSlotAdapter
         rvTimeChip.layoutManager = GridLayoutManager(itemView.context, 3, GridLayoutManager.VERTICAL, false)
-        mMovieTimeSlotAdapter.setNewData(timeSlotList, cinemaId)
+        mCinema?.let { mMovieTimeSlotAdapter.setNewData(timeSlotList, it) }
     }
 
     fun bindData(cinema: CinemaVO) {

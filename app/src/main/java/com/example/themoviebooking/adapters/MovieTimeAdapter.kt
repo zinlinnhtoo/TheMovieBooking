@@ -20,8 +20,8 @@ class MovieTimeAdapter(private val mDelegate: MovieTimeDelegate): RecyclerView.A
 
     override fun onBindViewHolder(holder: MovieTimeViewHolder, position: Int) {
         if (mCinemaList.isNotEmpty()) {
-            holder.setUpTimeChipRecyclerView(mCinemaList[position].timeSlots, mDelegate, mCinemaList[position].cinemaId ?: 0)
             holder.bindData(mCinemaList[position])
+            holder.setUpTimeChipRecyclerView(mCinemaList[position].timeSlots, mDelegate, mCinemaList[position].cinemaId ?: 0)
         }
     }
 

@@ -6,6 +6,8 @@ data class DateVO(
     var month: String,
     var day: String,
     var weekday: String,
+    var monthInName: String,
+    var weekdayInName: String,
     var isSelected: Boolean? = false
 ) {
     fun formattedDate(): String {
