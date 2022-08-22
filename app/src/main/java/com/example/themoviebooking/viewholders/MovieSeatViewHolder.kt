@@ -25,20 +25,29 @@ class MovieSeatViewHolder(
                 )
                 itemView.setOnClickListener {
                     data.isSelected = data.isSelected != true
-                    itemView.tvMovieSeatTitle.apply {
-                        visibility = View.VISIBLE
-                        text = data.seatName
-                        setTextColor(
-                            ContextCompat.getColor(
-                                itemView.context,
-                                R.color.white
+                    if (data.isSelected == true) {
+                        itemView.tvMovieSeatTitle.apply {
+                            visibility = View.VISIBLE
+                            text = data.seatName
+                            setTextColor(
+                                ContextCompat.getColor(
+                                    itemView.context,
+                                    R.color.white
+                                )
                             )
+                        }
+                        itemView.flMovieSeat.backgroundTintList = ContextCompat.getColorStateList(
+                            itemView.context,
+                            R.color.colorPrimary
+                        )
+                    } else {
+                        itemView.tvMovieSeatTitle.visibility = View.GONE
+                        itemView.flMovieSeat.backgroundTintList = ContextCompat.getColorStateList(
+                            itemView.context,
+                            R.color.movie_seat_available_color
                         )
                     }
-                    itemView.flMovieSeat.backgroundTintList = ContextCompat.getColorStateList(
-                        itemView.context,
-                        R.color.colorPrimary
-                    )
+
 
                     mDelegate.onTapMovieSeat("${data.isSelected}")
                 }
