@@ -10,5 +10,5 @@ data class CinemaVO(
     val cinema: String?,
 
     @SerializedName("timeslots")
-    val timeSlots: List<TimeSlotVO>
+    val timeSlots: List<TimeSlotVO>,
 )

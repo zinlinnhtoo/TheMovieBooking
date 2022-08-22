@@ -15,12 +15,12 @@ class MovieTimeAdapter(private val mDelegate: MovieTimeDelegate): RecyclerView.A
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieTimeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_time, parent, false)
-        return MovieTimeViewHolder(view, mDelegate)
+        return MovieTimeViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MovieTimeViewHolder, position: Int) {
         if (mCinemaList.isNotEmpty()) {
-            holder.setUpTimeChipRecyclerView(mCinemaList[position].timeSlots)
+            holder.setUpTimeChipRecyclerView(mCinemaList[position].timeSlots, mDelegate, mCinemaList[position].cinemaId ?: 0)
             holder.bindData(mCinemaList[position])
         }
     }

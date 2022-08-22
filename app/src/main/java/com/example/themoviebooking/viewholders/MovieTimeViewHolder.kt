@@ -9,7 +9,7 @@ import com.example.themoviebooking.data.vos.TimeSlotVO
 import com.example.themoviebooking.delegates.MovieTimeDelegate
 import kotlinx.android.synthetic.main.view_holder_movie_time.view.*
 
-class MovieTimeViewHolder(itemView: View, private val mDelegate: MovieTimeDelegate) : RecyclerView.ViewHolder(itemView) {
+class MovieTimeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     lateinit var mMovieTimeSlotAdapter: TimeslotAdapter
 
@@ -19,11 +19,11 @@ class MovieTimeViewHolder(itemView: View, private val mDelegate: MovieTimeDelega
     var rvTimeChip: RecyclerView = itemView.rvTimeChip
 
 
-    fun setUpTimeChipRecyclerView(timeSlotList: List<TimeSlotVO>) {
-        mMovieTimeSlotAdapter = TimeslotAdapter(mDelegate)
+    fun setUpTimeChipRecyclerView(timeSlotList: List<TimeSlotVO>, delegate: MovieTimeDelegate, cinemaId: Int) {
+        mMovieTimeSlotAdapter = TimeslotAdapter(delegate)
         rvTimeChip.adapter = mMovieTimeSlotAdapter
         rvTimeChip.layoutManager = GridLayoutManager(itemView.context, 3, GridLayoutManager.VERTICAL, false)
-        mMovieTimeSlotAdapter.setNewData(timeSlotList)
+        mMovieTimeSlotAdapter.setNewData(timeSlotList, cinemaId)
     }
 
     fun bindData(cinema: CinemaVO) {

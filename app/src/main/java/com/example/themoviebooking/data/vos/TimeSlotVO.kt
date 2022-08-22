@@ -7,6 +7,8 @@ data class TimeSlotVO(
     val cinemaDayTimeslotId: Int?,
 
     @SerializedName("start_time")
-    val startTime: String?
+    val startTime: String?,
+
+    var isSelected: Boolean? = false
 
 )

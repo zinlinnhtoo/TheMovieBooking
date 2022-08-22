@@ -1,5 +1,8 @@
 package com.example.themoviebooking.delegates
 
 interface MovieTimeDelegate {
-    fun onTapTime()
+    fun onTapTime(
+        cinemaId: Int?,
+        timeslotId: Int?
+    )
 }

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
@@ -14,6 +13,7 @@ import com.example.themoviebooking.adapters.MovieDateAdapter
 import com.example.themoviebooking.adapters.MovieTimeAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.data.vos.CinemaVO
 import com.example.themoviebooking.data.vos.DateVO
 import com.example.themoviebooking.delegates.MovieDateDelegate
 import com.example.themoviebooking.delegates.MovieTimeDelegate
@@ -28,6 +28,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     lateinit var mMovieTimeAdapter: MovieTimeAdapter
 
     private var mMovieDateList: MutableList<DateVO> = mutableListOf()
+    private var mCinemaList: MutableList<CinemaVO> = mutableListOf()
 
     private var mMovieId: Int? = null
 
@@ -92,9 +93,18 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         requestTimeslotData(formattedDate)
     }
 
-    override fun onTapTime() {
-        Log.i("GG", "OnTap")
-        Toast.makeText(this, "Tap Time slot", Toast.LENGTH_SHORT).show()
+    override fun onTapTime(cinemaId: Int?, timeslotId: Int?) {
+
+        mCinemaList.forEach { cinema ->
+            cinema.timeSlots.forEach {
+                if (cinema.cinemaId == cinemaId) {
+                    it.isSelected = it.cinemaDayTimeslotId == timeslotId
+                } else {
+                    it.isSelected = false
+                }
+            }
+        }
+        mMovieTimeAdapter.setNewData(mCinemaList)
     }
 
     private fun requestTimeslotData(date: String) {
@@ -102,6 +112,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
             movieId = mMovieId?.toString().orEmpty(),
             date = date,
             onSuccess = {
+                mCinemaList = it.toMutableList()
                 mMovieTimeAdapter.setNewData(it)
             },
             onFailure = {
