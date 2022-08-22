@@ -36,15 +36,17 @@ class MovieTimeslotViewHolder(itemView: View, private val mDelegate: MovieTimeDe
                     R.color.white
                 )
             )
-            itemView.tvTimeChip.setBackgroundColor(R.color.colorAccent)
+            itemView.tvTimeChip.backgroundTintList = ContextCompat.getColorStateList(
+                itemView.context,
+                R.color.colorPrimary
+            )
         } else {
             itemView.tvTimeChip.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,
-                    R.color.colorAccent
+                    R.color.black
                 )
             )
-            itemView.tvTimeChip.setBackgroundColor(R.color.white)
         }
     }
 }
