@@ -56,5 +56,6 @@
     <dimen name="margin_top_profile">64dp</dimen>
     <dimen name="width_movie_item">128dp</dimen>
     <dimen name="width_date">60dp</dimen>
+    <dimen name="text_size_movie_seat">5sp</dimen>
 
 </resources>

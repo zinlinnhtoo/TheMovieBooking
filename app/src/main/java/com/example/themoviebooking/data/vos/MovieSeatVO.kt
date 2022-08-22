@@ -16,7 +16,9 @@ class MovieSeatVO(
     val symbol: String?,
 
     @SerializedName("price")
-    val price: Int?
+    val price: Int?,
+    
+    var isSelected: Boolean? = false
 ) {
     fun isMovieSeatAvailable(): Boolean {
         return type == SEAT_TYPE_AVAILABLE

@@ -6,14 +6,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
 import com.example.themoviebooking.data.vos.MovieSeatVO
+import com.example.themoviebooking.delegates.MovieSeatDelegate
 import com.example.themoviebooking.viewholders.MovieSeatViewHolder
 
-class MovieSeatAdapter(private var mMovieSeats: List<MovieSeatVO> = listOf()) :
+class MovieSeatAdapter(
+    private var mMovieSeats: List<MovieSeatVO> = listOf(),
+    private val mDelegate: MovieSeatDelegate
+) :
         RecyclerView.Adapter<MovieSeatViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieSeatViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_movie_seat, parent, false)
-        return MovieSeatViewHolder(view)
+        return MovieSeatViewHolder(view, mDelegate)
     }
 
     override fun onBindViewHolder(holder: MovieSeatViewHolder, position: Int) {

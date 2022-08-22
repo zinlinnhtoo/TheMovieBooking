@@ -5,19 +5,24 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_TITLE
 import com.example.themoviebooking.adapters.MovieSeatAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.data.vos.MovieSeatVO
+import com.example.themoviebooking.delegates.MovieSeatDelegate
 import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_movie_seat.*
 
-class MovieSeatActivity : AppCompatActivity() {
+class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
 
-    private val mMovieSeatAdapter: MovieSeatAdapter = MovieSeatAdapter()
+    lateinit var mMovieSeatAdapter: MovieSeatAdapter
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
+
+    private var mMovieSeatList: List<MovieSeatVO> = listOf()
 
     private var mMovieTitle: String? = null
     private var mMovieWeekDay: String? = null
@@ -92,6 +97,7 @@ class MovieSeatActivity : AppCompatActivity() {
             cinemaDayTimeslotId = cinemaDayTimeslotId.toString(),
             bookingDate = bookingDate,
             onSuccess = {
+                mMovieSeatList = it
                 mMovieSeatAdapter.setNewData(it)
             },
             onFailure = {
@@ -101,8 +107,9 @@ class MovieSeatActivity : AppCompatActivity() {
     }
 
     private fun setUpMovieRecyclerView() {
+        mMovieSeatAdapter = MovieSeatAdapter(mMovieSeatList, this)
         rvMovieSeat.adapter = mMovieSeatAdapter
-        rvMovieSeat.layoutManager = GridLayoutManager(applicationContext, 10)
+        rvMovieSeat.layoutManager = GridLayoutManager(applicationContext, 14)
     }
 
     private fun setUpListener() {
@@ -120,5 +127,9 @@ class MovieSeatActivity : AppCompatActivity() {
         tvMovieName.text = mMovieTitle
         tvCinema.text = mCinemaName
         tvMovieDateTime.text = "$mMovieWeekDay, $mMovieDay $mMovieMonth, $mMovieTime"
+    }
+
+    override fun onTapMovieSeat(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
