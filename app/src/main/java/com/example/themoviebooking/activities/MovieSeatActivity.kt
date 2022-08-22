@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_TITLE
 import com.example.themoviebooking.adapters.MovieSeatAdapter
-import com.example.themoviebooking.dummy.DUMMY_SEATS
+import com.example.themoviebooking.data.models.MovieBookingModel
+import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_movie_seat.*
 
 class MovieSeatActivity : AppCompatActivity() {
 
-    private val mAdapter: MovieSeatAdapter = MovieSeatAdapter()
+    private val mMovieSeatAdapter: MovieSeatAdapter = MovieSeatAdapter()
+    private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
     private var mMovieTitle: String? = null
     private var mMovieWeekDay: String? = null
@@ -22,6 +25,8 @@ class MovieSeatActivity : AppCompatActivity() {
     private var mMovieMonth: String? = null
     private var mMovieTime: String? = null
     private var mCinemaName: String? = null
+    private var mCinemaDayTimeslotId: Int? = null
+    private var mDate: String? = null
 
     companion object {
         const val EXTRA_MOVIE_WEEK_DAY = "EXTRA_MOVIE_WEEKDAY"
@@ -29,13 +34,17 @@ class MovieSeatActivity : AppCompatActivity() {
         const val EXTRA_MOVIE_MONTH = "EXTRA_MOVIE_MONTH"
         const val EXTRA_MOVIE_TIME = "EXTRA_MOVIE_TIME"
         const val EXTRA_CINEMA_NAME = "EXTRA_CINEMA_NAME"
+        const val EXTRA_DATE = "EXTRA_DATE"
+        const val EXTRA_CINEMA_DAY_TIMESLOT_ID = "EXTRA_CINEMA_DAY_TIMESLOT_ID"
         fun newIntent(context: Context,
                       movieTitle: String,
                       movieWeekday: String,
                       movieDay: String,
                       movieMonth: String,
                       movieTime: String,
-                      cinemaName: String
+                      cinemaName: String,
+                      cinemaDayTimeslotId: Int,
+                      date: String
         ): Intent {
             val intent = Intent(context, MovieSeatActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
@@ -44,6 +53,8 @@ class MovieSeatActivity : AppCompatActivity() {
             intent.putExtra(EXTRA_MOVIE_MONTH, movieMonth)
             intent.putExtra(EXTRA_MOVIE_TIME, movieTime)
             intent.putExtra(EXTRA_CINEMA_NAME, cinemaName)
+            intent.putExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, cinemaDayTimeslotId)
+            intent.putExtra(EXTRA_DATE, date)
             return intent
         }
     }
@@ -58,18 +69,40 @@ class MovieSeatActivity : AppCompatActivity() {
         mMovieMonth = intent?.getStringExtra(EXTRA_MOVIE_MONTH)
         mMovieTime = intent?.getStringExtra(EXTRA_MOVIE_TIME)
         mCinemaName = intent?.getStringExtra(EXTRA_CINEMA_NAME)
+        mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
+        mDate = intent?.getStringExtra(EXTRA_DATE)
 
 
         setUpListener()
         setUpMovieRecyclerView()
         setUpDataInActivity()
+        mCinemaDayTimeslotId?.let { id ->
+            mDate?.let { date ->
+                requestData(id, date)
+            }
+        }
 
     }
 
+    private fun requestData(
+        cinemaDayTimeslotId: Int,
+        bookingDate: String
+    ) {
+        mMovieBookingModel.getCinemaSeatingPlan(
+            cinemaDayTimeslotId = cinemaDayTimeslotId.toString(),
+            bookingDate = bookingDate,
+            onSuccess = {
+                mMovieSeatAdapter.setNewData(it)
+            },
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
+    }
+
     private fun setUpMovieRecyclerView() {
-        rvMovieSeat.adapter = mAdapter
+        rvMovieSeat.adapter = mMovieSeatAdapter
         rvMovieSeat.layoutManager = GridLayoutManager(applicationContext, 10)
-        mAdapter.setNewData(DUMMY_SEATS)
     }
 
     private fun setUpListener() {

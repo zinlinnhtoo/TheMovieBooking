@@ -1,6 +1,7 @@
 package com.example.themoviebooking.data.models
 
 import com.example.themoviebooking.data.vos.CinemaVO
+import com.example.themoviebooking.data.vos.MovieSeatVO
 import com.example.themoviebooking.data.vos.UserVO
 import com.example.themoviebooking.network.dataagents.MovieBookingDataAgent
 import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAgentImpl
@@ -86,6 +87,21 @@ object MovieBookingModelImpl: MovieBookingModel {
             token = userToken.orEmpty(),
             movieId = movieId,
             date = date,
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
+
+    override fun getCinemaSeatingPlan(
+        cinemaDayTimeslotId: String,
+        bookingDate: String,
+        onSuccess: (List<MovieSeatVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mMovieBookingDataAgent.getCinemaSeatingPlan(
+            token = userToken.orEmpty(),
+            cinemaDayTimeslotId = cinemaDayTimeslotId,
+            bookingDate = bookingDate,
             onSuccess = onSuccess,
             onFailure = onFailure
         )

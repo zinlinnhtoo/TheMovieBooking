@@ -1,6 +1,7 @@
 package com.example.themoviebooking.network
 
 import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
+import com.example.themoviebooking.network.responses.CinemaSeatingPlanResponse
 import com.example.themoviebooking.network.responses.LoginUserResponse
 import com.example.themoviebooking.utils.*
 import retrofit2.Call
@@ -41,4 +42,10 @@ interface TheMovieBookingApi {
         @Query(PARAM_DATE) date: String
     ): Call<CinemaDayTimeslotResponse>
 
+    @GET(API_CINEMA_SEATING_PLAN)
+    fun getCinemaSeatingPlan(
+        @Header("Authorization") token: String,
+        @Query(PARAM_CINEMA_DAY_TIMESLOT_ID) cinemaDayTimeslotId: String,
+        @Query(PARAM_BOOKING_DATE) bookingDate: String
+    ): Call<CinemaSeatingPlanResponse>
 }

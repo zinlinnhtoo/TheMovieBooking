@@ -1,9 +1,11 @@
 package com.example.themoviebooking.network.dataagents
 
 import com.example.themoviebooking.data.vos.CinemaVO
+import com.example.themoviebooking.data.vos.MovieSeatVO
 import com.example.themoviebooking.data.vos.UserVO
 import com.example.themoviebooking.network.TheMovieBookingApi
 import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
+import com.example.themoviebooking.network.responses.CinemaSeatingPlanResponse
 import com.example.themoviebooking.network.responses.LoginUserResponse
 import com.example.themoviebooking.utils.BEARER
 import com.example.themoviebooking.utils.THE_MOVIE_BOOKING_BASE_URL
@@ -187,6 +189,39 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                 }
 
                 override fun onFailure(call: Call<CinemaDayTimeslotResponse>, t: Throwable) {
+                    onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getCinemaSeatingPlan(
+        token: String,
+        cinemaDayTimeslotId: String,
+        bookingDate: String,
+        onSuccess: (List<MovieSeatVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getCinemaSeatingPlan(
+            token = BEARER + token,
+            cinemaDayTimeslotId = cinemaDayTimeslotId,
+            bookingDate = bookingDate,
+        )?.enqueue(
+            object : Callback<CinemaSeatingPlanResponse> {
+                override fun onResponse(
+                    call: Call<CinemaSeatingPlanResponse>,
+                    response: Response<CinemaSeatingPlanResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.let {
+                            onSuccess(it.flatten())
+                        }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<CinemaSeatingPlanResponse>, t: Throwable) {
                     onFailure(t.message ?: "")
                 }
             }

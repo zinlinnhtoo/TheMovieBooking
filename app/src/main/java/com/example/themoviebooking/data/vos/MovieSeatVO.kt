@@ -1,14 +1,28 @@
 package com.example.themoviebooking.data.vos
 
+import com.google.gson.annotations.SerializedName
+
 class MovieSeatVO(
-    val title: String = "",
-    private val type: String = ""
+    @SerializedName("id")
+    val id: Int?,
+
+    @SerializedName("type")
+    val type: String?,
+
+    @SerializedName("seat_name")
+    val seatName: String?,
+
+    @SerializedName("symbol")
+    val symbol: String?,
+
+    @SerializedName("price")
+    val price: Int?
 ) {
-    fun isMovieSeatAvailable(): Boolean? {
+    fun isMovieSeatAvailable(): Boolean {
         return type == SEAT_TYPE_AVAILABLE
     }
 
-    fun isMovieSeatTaken(): Boolean? {
+    fun isMovieSeatTaken(): Boolean {
         return type == SEAT_TYPE_TAKEN
     }
 

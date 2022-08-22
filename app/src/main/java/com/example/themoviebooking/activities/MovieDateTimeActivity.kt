@@ -38,6 +38,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     private var mMovieMonth: String? = null
     private var mMovieTime: String? = null
     private var mCinemaName: String? = null
+    private var mDate: String? = null
+    private var mCinemaDayTimeslotId: Int? = null
 
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
@@ -66,6 +68,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
             it.isSelected = true
             val date = it.formattedDate()
             requestTimeslotData(date)
+            // for seating plan
+            mDate = date
 
             mMovieWeekDay = it.weekdayInName
             mMovieDay = it.day
@@ -92,7 +96,9 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                     mMovieDay.orEmpty(),
                     mMovieMonth.orEmpty(),
                     mMovieTime.orEmpty(),
-                    mCinemaName.orEmpty()
+                    mCinemaName.orEmpty(),
+                    mCinemaDayTimeslotId ?: 0,
+                    mDate.orEmpty()
                 ))
             }
         }
@@ -117,6 +123,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         mMovieDateAdapter.setNewData(mMovieDateList)
         val formattedDate = selectedDate.formattedDate()
         requestTimeslotData(formattedDate)
+        mDate = formattedDate
     }
 
     override fun onTapTime(cinema: CinemaVO, timeslot: TimeSlotVO) {
@@ -129,6 +136,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                 }
             }
         }
+        mCinemaDayTimeslotId = timeslot.cinemaDayTimeslotId
         mMovieTime = timeslot.startTime
         mCinemaName = cinema.cinema
         mMovieTimeAdapter.setNewData(mCinemaList)
