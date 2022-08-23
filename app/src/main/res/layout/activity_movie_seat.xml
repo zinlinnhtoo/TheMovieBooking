@@ -18,7 +18,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:paddingTop="@dimen/margin_medium_2"
         android:paddingBottom="@dimen/margin_medium_2"
-        android:text="Buy Ticket for $20.00"
+        android:text="Buy Ticket for $0.0"
         android:textAllCaps="false"
         android:textColor="@color/colorSecondaryText"
         android:textSize="@dimen/text_regular_2x" />

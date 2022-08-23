@@ -2,6 +2,9 @@ package com.example.themoviebooking.delegates
 
 interface MovieSeatDelegate {
     fun onTapMovieSeat(
-        message: String
+        takenSeatName: String,
+        removeSeatName: String,
+        totalSeat: Int,
+        ticketPrice: Double
     )
 }

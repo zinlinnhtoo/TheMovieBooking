@@ -9,6 +9,8 @@ const val API_USER_PROFILE = "/api/v1/profile"
 const val API_LOG_OUT = "/api/v1/logout"
 const val API_CINEMA_DAY_TIMESLOT = "/api/v1/cinema-day-timeslots"
 const val API_CINEMA_SEATING_PLAN = "/api/v1/seat-plan"
+const val API_SNACK = "/api/v1/snacks"
+const val API_PAYMENT_METHOD = "/api/v1/payment-methods"
 
 const val PARAM_MOVIE_ID = "movie_id"
 const val PARAM_DATE = "date"

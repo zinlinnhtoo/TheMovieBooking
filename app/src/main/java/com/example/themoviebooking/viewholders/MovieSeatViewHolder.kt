@@ -14,6 +14,11 @@ class MovieSeatViewHolder(
     private val mDelegate: MovieSeatDelegate
 ) : RecyclerView.ViewHolder(itemView) {
 
+    private var totalSeats: Int = 0
+    private var takenSeatName: String = ""
+    private var removeSeatName: String = ""
+    private var ticketPrice: Double = 0.0
+
     @SuppressLint("ResourceAsColor")
     fun bindData(data: MovieSeatVO) {
         when {
@@ -26,6 +31,13 @@ class MovieSeatViewHolder(
                 itemView.setOnClickListener {
                     data.isSelected = data.isSelected != true
                     if (data.isSelected == true) {
+                        totalSeats = +1
+                        data.seatName?.let {
+                            takenSeatName = it
+                        }
+                        data.price?.let {
+                            ticketPrice = +it.toDouble()
+                        }
                         itemView.tvMovieSeatTitle.apply {
                             visibility = View.VISIBLE
                             text = data.seatName
@@ -41,6 +53,13 @@ class MovieSeatViewHolder(
                             R.color.colorPrimary
                         )
                     } else {
+                        totalSeats = -1
+                        data.seatName?.let {
+                            removeSeatName = it
+                        }
+                        data.price?.let {
+                            ticketPrice = -it.toDouble()
+                        }
                         itemView.tvMovieSeatTitle.visibility = View.GONE
                         itemView.flMovieSeat.backgroundTintList = ContextCompat.getColorStateList(
                             itemView.context,
@@ -48,8 +67,7 @@ class MovieSeatViewHolder(
                         )
                     }
 
-
-                    mDelegate.onTapMovieSeat("${data.isSelected}")
+                    mDelegate.onTapMovieSeat(takenSeatName, removeSeatName, totalSeats, ticketPrice)
                 }
             }
             data.isMovieSeatTaken() -> {
@@ -58,9 +76,6 @@ class MovieSeatViewHolder(
                     itemView.context,
                     R.drawable.background_movie_seat_taken
                 )
-                itemView.setOnClickListener {
-                    mDelegate.onTapMovieSeat("Tap Taken Seat")
-                }
             }
             data.isMovieSeatRowTitle() -> {
                 itemView.tvMovieSeatTitle.visibility = View.VISIBLE
@@ -71,9 +86,6 @@ class MovieSeatViewHolder(
                         R.color.white
                     )
                 )
-                itemView.setOnClickListener {
-                    mDelegate.onTapMovieSeat("Don't Tap")
-                }
             }
             else -> {
                 itemView.tvMovieSeatTitle.visibility = View.GONE

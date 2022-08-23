@@ -1,8 +1,6 @@
 package com.example.themoviebooking.network
 
-import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
-import com.example.themoviebooking.network.responses.CinemaSeatingPlanResponse
-import com.example.themoviebooking.network.responses.LoginUserResponse
+import com.example.themoviebooking.network.responses.*
 import com.example.themoviebooking.utils.*
 import retrofit2.Call
 import retrofit2.http.*
@@ -48,4 +46,14 @@ interface TheMovieBookingApi {
         @Query(PARAM_CINEMA_DAY_TIMESLOT_ID) cinemaDayTimeslotId: String,
         @Query(PARAM_BOOKING_DATE) bookingDate: String
     ): Call<CinemaSeatingPlanResponse>
+
+    @GET(API_SNACK)
+    fun getSnack(
+        @Header("Authorization") token: String
+    ): Call<SnackResponse>
+
+    @GET(API_PAYMENT_METHOD)
+    fun getPaymentMethod(
+        @Header("Authorization") token: String
+    ): Call<PaymentCardResponse>
 }

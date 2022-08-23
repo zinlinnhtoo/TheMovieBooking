@@ -1,8 +1,6 @@
 package com.example.themoviebooking.data.models
 
-import com.example.themoviebooking.data.vos.CinemaVO
-import com.example.themoviebooking.data.vos.MovieSeatVO
-import com.example.themoviebooking.data.vos.UserVO
+import com.example.themoviebooking.data.vos.*
 import com.example.themoviebooking.network.dataagents.MovieBookingDataAgent
 import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAgentImpl
 
@@ -102,6 +100,25 @@ object MovieBookingModelImpl: MovieBookingModel {
             token = userToken.orEmpty(),
             cinemaDayTimeslotId = cinemaDayTimeslotId,
             bookingDate = bookingDate,
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
+
+    override fun getSnack(onSuccess: (List<SnackVO>) -> Unit, onFailure: (String) -> Unit) {
+        mMovieBookingDataAgent.getSnack(
+            token = userToken.orEmpty(),
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
+
+    override fun getPaymentMethod(
+        onSuccess: (List<PaymentCardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mMovieBookingDataAgent.getPaymentMethod(
+            token = userToken.orEmpty(),
             onSuccess = onSuccess,
             onFailure = onFailure
         )

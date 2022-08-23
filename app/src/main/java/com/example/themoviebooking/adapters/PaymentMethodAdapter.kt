@@ -1,12 +1,16 @@
 package com.example.themoviebooking.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
+import com.example.themoviebooking.data.vos.PaymentCardVO
 import com.example.themoviebooking.viewholders.PaymentMethodViewHolder
 
 class PaymentMethodAdapter: RecyclerView.Adapter<PaymentMethodViewHolder>() {
+
+    private var mPaymentCardList: List<PaymentCardVO> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentMethodViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_payment_method, parent, false)
@@ -14,10 +18,16 @@ class PaymentMethodAdapter: RecyclerView.Adapter<PaymentMethodViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: PaymentMethodViewHolder, position: Int) {
-
+        holder.bindData(mPaymentCardList[position])
     }
 
     override fun getItemCount(): Int {
-        return 3
+        return mPaymentCardList.count()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setNewData(paymentCardList: List<PaymentCardVO>) {
+        mPaymentCardList = paymentCardList
+        notifyDataSetChanged()
     }
 }

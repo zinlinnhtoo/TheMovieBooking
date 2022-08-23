@@ -1,12 +1,8 @@
 package com.example.themoviebooking.network.dataagents
 
-import com.example.themoviebooking.data.vos.CinemaVO
-import com.example.themoviebooking.data.vos.MovieSeatVO
-import com.example.themoviebooking.data.vos.UserVO
+import com.example.themoviebooking.data.vos.*
 import com.example.themoviebooking.network.TheMovieBookingApi
-import com.example.themoviebooking.network.responses.CinemaDayTimeslotResponse
-import com.example.themoviebooking.network.responses.CinemaSeatingPlanResponse
-import com.example.themoviebooking.network.responses.LoginUserResponse
+import com.example.themoviebooking.network.responses.*
 import com.example.themoviebooking.utils.BEARER
 import com.example.themoviebooking.utils.THE_MOVIE_BOOKING_BASE_URL
 import okhttp3.OkHttpClient
@@ -223,6 +219,60 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
 
                 override fun onFailure(call: Call<CinemaSeatingPlanResponse>, t: Throwable) {
                     onFailure(t.message ?: "")
+                }
+            }
+        )
+    }
+
+    override fun getSnack(
+        token: String,
+        onSuccess: (List<SnackVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getSnack(
+            token = BEARER + token
+        )?.enqueue(
+            object : Callback<SnackResponse> {
+                override fun onResponse(
+                    call: Call<SnackResponse>,
+                    response: Response<SnackResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.let(onSuccess)
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<SnackResponse>, t: Throwable) {
+                    onFailure(t.message.orEmpty())
+                }
+            }
+        )
+    }
+
+    override fun getPaymentMethod(
+        token: String,
+        onSuccess: (List<PaymentCardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getPaymentMethod(
+            token = BEARER + token
+        )?.enqueue(
+            object : Callback<PaymentCardResponse> {
+                override fun onResponse(
+                    call: Call<PaymentCardResponse>,
+                    response: Response<PaymentCardResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.let(onSuccess)
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<PaymentCardResponse>, t: Throwable) {
+                    onFailure(t.message.orEmpty())
                 }
             }
         )

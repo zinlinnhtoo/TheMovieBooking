@@ -85,12 +85,34 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubTotalLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnPromoCode"
+                    android:layout_alignStart="@id/tvPromoCodeLabel"
+                    android:layout_marginTop="@dimen/margin_card_medium_2"
+                    android:text="Sub Total: "
+                    android:textColor="@color/colorAddGreen"
+                    android:textSize="@dimen/text_regular"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvSubTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tvSubTotalLabel"
+                    android:layout_toEndOf="@id/tvSubTotalLabel"
+                    android:textColor="@color/colorAddGreen"
+                    android:textSize="@dimen/text_regular"
+                    android:textStyle="bold"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tvPaymentMethod"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvPromoCodeLabel"
+                    android:layout_below="@id/tvSubTotalLabel"
                     android:layout_alignStart="@id/tvPromoCodeLabel"
-                    android:layout_marginTop="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_card_medium_2"
                     android:text="@string/lbl_payment_method"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_regular_3x"

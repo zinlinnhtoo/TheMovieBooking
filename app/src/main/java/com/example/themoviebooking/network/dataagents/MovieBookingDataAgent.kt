@@ -1,8 +1,6 @@
 package com.example.themoviebooking.network.dataagents
 
-import com.example.themoviebooking.data.vos.CinemaVO
-import com.example.themoviebooking.data.vos.MovieSeatVO
-import com.example.themoviebooking.data.vos.UserVO
+import com.example.themoviebooking.data.vos.*
 
 interface MovieBookingDataAgent {
 
@@ -47,6 +45,18 @@ interface MovieBookingDataAgent {
         cinemaDayTimeslotId: String,
         bookingDate: String,
         onSuccess: (List<MovieSeatVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getSnack(
+        token: String,
+        onSuccess: (List<SnackVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getPaymentMethod(
+        token: String,
+        onSuccess: (List<PaymentCardVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 }

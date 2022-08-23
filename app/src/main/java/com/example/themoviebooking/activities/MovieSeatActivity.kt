@@ -22,8 +22,13 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     lateinit var mMovieSeatAdapter: MovieSeatAdapter
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
+    //field from cinema view holder
     private var mMovieSeatList: List<MovieSeatVO> = listOf()
+    private var mTotalSeats: Int = 0
+    private var mTakenSeatNames: MutableList<String> = mutableListOf()
+    private var mTicketPrice: Double = 0.0
 
+    //field from date time activity
     private var mMovieTitle: String? = null
     private var mMovieWeekDay: String? = null
     private var mMovieDay: String? = null
@@ -32,6 +37,9 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private var mCinemaName: String? = null
     private var mCinemaDayTimeslotId: Int? = null
     private var mDate: String? = null
+
+    //field for snack activity
+    private var mPrice: Double? = 0.0
 
     companion object {
         const val EXTRA_MOVIE_WEEK_DAY = "EXTRA_MOVIE_WEEKDAY"
@@ -114,7 +122,9 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
 
     private fun setUpListener() {
         btnGotoSnack.setOnClickListener {
-            startActivity(SnackActivity.newIntent(this))
+            mPrice?.let {
+                startActivity(SnackActivity.newIntent(this, it))
+            }
         }
 
         btnBack.setOnClickListener {
@@ -129,7 +139,20 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         tvMovieDateTime.text = "$mMovieWeekDay, $mMovieDay $mMovieMonth, $mMovieTime"
     }
 
-    override fun onTapMovieSeat(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    @SuppressLint("SetTextI18n")
+    override fun onTapMovieSeat(takenSeatName: String, removeSeatName: String, totalSeat: Int, ticketPrice: Double) {
+        mTotalSeats += totalSeat
+        mTicketPrice += ticketPrice
+        mPrice = mTicketPrice
+
+        if (takenSeatName != removeSeatName) {
+            mTakenSeatNames.add(takenSeatName)
+        } else {
+            mTakenSeatNames.remove(removeSeatName)
+        }
+
+        tvTicket.text = mTotalSeats.toString()
+        tvSeat.text = mTakenSeatNames.joinToString(", ")
+        btnGotoSnack.text = "Buy Ticket for $$mTicketPrice"
     }
 }
