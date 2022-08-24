@@ -5,16 +5,19 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
 import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_snack.*
 
-class SnackActivity : AppCompatActivity() {
+class SnackActivity : AppCompatActivity(), PaymentMethodDelegate {
 
     lateinit var mSnackAdapter: SnackAdapter
     lateinit var mPaymentMethodAdapter: PaymentMethodAdapter
@@ -23,6 +26,8 @@ class SnackActivity : AppCompatActivity() {
 
     //field from seat activity
     private var mPrice: Double? = null
+
+    private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
 
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
@@ -50,7 +55,7 @@ class SnackActivity : AppCompatActivity() {
     }
 
     private fun setUpPaymentMethodRecyclerView() {
-        mPaymentMethodAdapter = PaymentMethodAdapter()
+        mPaymentMethodAdapter = PaymentMethodAdapter(this)
         rvPaymentMethod.adapter = mPaymentMethodAdapter
         rvPaymentMethod.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
@@ -83,11 +88,19 @@ class SnackActivity : AppCompatActivity() {
 
         mMovieBookingModel.getPaymentMethod(
             onSuccess = {
+                mPaymentMethodList = it.toMutableList()
                 mPaymentMethodAdapter.setNewData(it)
             },
             onFailure = {
                 showErrorToast(it, this)
             }
         )
+    }
+
+    override fun onTapPaymentMethod(paymentMethod: PaymentCardVO) {
+        mPaymentMethodList.forEach{
+            it.isSelected = it.id == paymentMethod.id
+        }
+        mPaymentMethodAdapter.setNewData(mPaymentMethodList)
     }
 }

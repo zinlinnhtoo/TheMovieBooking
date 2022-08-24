@@ -10,5 +10,7 @@ data class PaymentCardVO(
     val name: String?,
 
     @SerializedName("description")
-    val description: String?
+    val description: String?,
+
+    var isSelected: Boolean? = false
 )
