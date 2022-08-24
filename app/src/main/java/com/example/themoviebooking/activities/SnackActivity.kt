@@ -14,10 +14,11 @@ import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.PaymentCardVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
+import com.example.themoviebooking.delegates.SnackToggleButtonDelegate
 import com.example.themoviebooking.utils.showErrorToast
 import kotlinx.android.synthetic.main.activity_snack.*
 
-class SnackActivity : AppCompatActivity(), PaymentMethodDelegate {
+class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleButtonDelegate {
 
     lateinit var mSnackAdapter: SnackAdapter
     lateinit var mPaymentMethodAdapter: PaymentMethodAdapter
@@ -28,6 +29,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate {
     private var mPrice: Double? = null
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
+    private var mSnackPrice: Double = 0.0
 
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
@@ -71,7 +73,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate {
     }
 
     private fun setUpSnackRecyclerView() {
-        mSnackAdapter = SnackAdapter()
+        mSnackAdapter = SnackAdapter(this)
         rvSnack.adapter = mSnackAdapter
         rvSnack.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
@@ -103,4 +105,13 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate {
         }
         mPaymentMethodAdapter.setNewData(mPaymentMethodList)
     }
+
+    @SuppressLint("SetTextI18n")
+    override fun onTapSnackToggleButton(price: Double) {
+        mSnackPrice += price
+        val priceTotal = mPrice?.plus(mSnackPrice)
+        btnGotoPaymentCard.text = "Pay $$priceTotal"
+        tvSubTotal.text = "$priceTotal"
+    }
+    
 }

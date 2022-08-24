@@ -16,5 +16,7 @@ data class SnackVO(
     val price: Double?,
 
     @SerializedName("image")
-    val image: String?
+    val image: String?,
+
+    val quantity: Int? = 0
 )
