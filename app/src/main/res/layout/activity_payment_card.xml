@@ -56,9 +56,9 @@
             android:layout_marginStart="@dimen/margin_medium_2"
             android:layout_marginBottom="@dimen/margin_medium_2"
             android:text="$ 926.21"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_regular_3x" />
+            android:textSize="@dimen/text_regular_3x"
+            android:textStyle="bold" />
 
 
         <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
@@ -30,6 +29,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
     private var mSnackPrice: Double = 0.0
+    private var mTotalPrice: Double = 0.0
 
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
@@ -68,7 +68,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         }
 
         btnGotoPaymentCard.setOnClickListener {
-            startActivity(PaymentCardActivity.newIntent(this))
+            startActivity(PaymentCardActivity.newIntentWithPrice(this, mTotalPrice))
         }
     }
 
@@ -109,9 +109,11 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     @SuppressLint("SetTextI18n")
     override fun onTapSnackToggleButton(price: Double) {
         mSnackPrice += price
-        val priceTotal = mPrice?.plus(mSnackPrice)
-        btnGotoPaymentCard.text = "Pay $$priceTotal"
-        tvSubTotal.text = "$priceTotal"
+        mPrice?.let {
+            mTotalPrice = it.plus(mSnackPrice)
+        }
+        btnGotoPaymentCard.text = "Pay $$mTotalPrice"
+        tvSubTotal.text = "$mTotalPrice"
     }
     
 }
