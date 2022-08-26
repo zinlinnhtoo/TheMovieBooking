@@ -47,6 +47,7 @@ class PaymentCardActivity : AppCompatActivity() {
         mCreditCardAdapter = CreditCardAdapter()
         rvCarouselCreditCard.adapter = mCreditCardAdapter
         rvCarouselCreditCard.setInfinite(true)
+        rvCarouselCreditCard.setIntervalRatio(0.75f)
     }
 
     private fun setUpListener() {

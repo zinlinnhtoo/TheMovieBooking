@@ -52,6 +52,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
 
         mPrice = intent?.getDoubleExtra(EXTRA_PRICE_IN_SNACK_BUTTON, 0.0)
         mPrice?.let {
+            mTotalPrice = it
             btnGotoPaymentCard.text = "Pay $$it"
             tvSubTotal.text = "$it$"
         }
@@ -141,7 +142,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         }
 
         mTotalPrice = mPrice?.plus(mTotalSnackPrice) ?: 0.0
-        
+
         btnGotoPaymentCard.text = "Pay $$mTotalPrice"
         tvSubTotal.text = "$mTotalPrice$"
     }
