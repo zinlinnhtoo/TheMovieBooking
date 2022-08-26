@@ -98,7 +98,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                     mMovieTime.orEmpty(),
                     mCinemaName.orEmpty(),
                     mCinemaDayTimeslotId ?: 0,
-                    mDate.orEmpty()
+                    mDate.orEmpty(),
+                    mMovieId ?: 0
                 ))
             }
         }

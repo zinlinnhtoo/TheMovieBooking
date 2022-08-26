@@ -9,6 +9,11 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.themoviebooking.R
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
+import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_CINEMA_LIST
+import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SEAT_NAME
 import com.example.themoviebooking.adapters.CreditCardAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
@@ -28,15 +33,33 @@ class PaymentCardActivity : AppCompatActivity() {
 
     //field from snack activity
     private var mTotalPrice: Double? = null
+    private var mCinemaDayTimeslotId: Int? = null
+    private var mRow: String? = null
+    private var mSeatName: String? = null
+    private var mDate: String? = null
+    private var mMovieId: Int? = null
 
     private var mCardList: MutableList<CardVO> = mutableListOf()
     private var mCardId: Int? = 0
 
     companion object {
         const val EXTRA_TOTAL_PRICE = "EXTRA_TOTAL_PRICE"
-        fun newIntentWithPrice(context: Context, price: Double): Intent {
+        fun newIntentWithPrice(
+            context: Context,
+            price: Double,
+            cinemaDayTimeslotId: Int,
+            row: String,
+            seatName: String,
+            date: String,
+            movieId: Int
+        ): Intent {
             return Intent(context, PaymentCardActivity::class.java)
                 .putExtra(EXTRA_TOTAL_PRICE, price)
+                .putExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, cinemaDayTimeslotId)
+                .putExtra(EXTRA_CINEMA_LIST, row)
+                .putExtra(EXTRA_SEAT_NAME, seatName)
+                .putExtra(EXTRA_DATE, date)
+                .putExtra(EXTRA_MOVIE_ID, movieId)
         }
 
         fun newIntent(context: Context): Intent {
@@ -49,6 +72,26 @@ class PaymentCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_card)
 
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mMovieId?.let {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        }
+        mDate = intent?.getStringExtra(EXTRA_DATE)
+        mDate?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+        mSeatName?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+        mRow?.let {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        }
+        mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
+        mCinemaDayTimeslotId?.let {
+            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+        }
         mTotalPrice = intent?.getDoubleExtra(EXTRA_TOTAL_PRICE, 0.0)
         mTotalPrice?.let {
             tvPaymentAmount.text = "$ $it"

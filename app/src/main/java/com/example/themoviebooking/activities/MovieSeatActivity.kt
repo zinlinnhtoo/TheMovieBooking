@@ -5,9 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.themoviebooking.R
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_TITLE
 import com.example.themoviebooking.adapters.MovieSeatAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
@@ -27,6 +27,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private var mTotalSeats: Int = 0
     private var mTakenSeatNames: MutableList<String> = mutableListOf()
     private var mTicketPrice: Double = 0.0
+    private var mRow: String = ""
 
     //field from date time activity
     private var mMovieTitle: String? = null
@@ -37,9 +38,11 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private var mCinemaName: String? = null
     private var mCinemaDayTimeslotId: Int? = null
     private var mDate: String? = null
+    private var mMovieId: Int? = null
 
     //field for snack activity
     private var mPrice: Double? = 0.0
+    private var mSeatName: String = ""
 
     companion object {
         const val EXTRA_MOVIE_WEEK_DAY = "EXTRA_MOVIE_WEEKDAY"
@@ -57,7 +60,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
                       movieTime: String,
                       cinemaName: String,
                       cinemaDayTimeslotId: Int,
-                      date: String
+                      date: String,
+                      movieId: Int
         ): Intent {
             val intent = Intent(context, MovieSeatActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
@@ -68,6 +72,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
             intent.putExtra(EXTRA_CINEMA_NAME, cinemaName)
             intent.putExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, cinemaDayTimeslotId)
             intent.putExtra(EXTRA_DATE, date)
+            intent.putExtra(EXTRA_MOVIE_ID, movieId)
             return intent
         }
     }
@@ -76,6 +81,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_seat)
 
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
         mMovieWeekDay = intent?.getStringExtra(EXTRA_MOVIE_WEEK_DAY)
         mMovieDay = intent?.getStringExtra(EXTRA_MOVIE_DAY)
@@ -123,7 +129,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private fun setUpListener() {
         btnGotoSnack.setOnClickListener {
             mPrice?.let {
-                startActivity(SnackActivity.newIntent(this, it))
+                startActivity(SnackActivity.newIntent(this, it, mCinemaDayTimeslotId ?: 0, mRow, mSeatName, mDate.orEmpty(), mMovieId ?: 0))
             }
         }
 
@@ -140,10 +146,17 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onTapMovieSeat(takenSeatName: String, removeSeatName: String, totalSeat: Int, ticketPrice: Double) {
+    override fun onTapMovieSeat(
+        takenSeatName: String,
+        removeSeatName: String,
+        totalSeat: Int,
+        ticketPrice: Double,
+        row: String
+    ) {
         mTotalSeats += totalSeat
         mTicketPrice += ticketPrice
         mPrice = mTicketPrice
+        mRow = row
 
         if (takenSeatName != removeSeatName) {
             mTakenSeatNames.add(takenSeatName)
@@ -153,6 +166,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
 
         tvTicket.text = mTotalSeats.toString()
         tvSeat.text = mTakenSeatNames.joinToString(", ")
+        mSeatName = mTakenSeatNames.joinToString(", ")
         btnGotoSnack.text = "Buy Ticket for $$mTicketPrice"
     }
 }

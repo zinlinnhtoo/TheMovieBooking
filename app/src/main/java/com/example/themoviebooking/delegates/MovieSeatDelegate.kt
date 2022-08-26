@@ -5,6 +5,7 @@ interface MovieSeatDelegate {
         takenSeatName: String,
         removeSeatName: String,
         totalSeat: Int,
-        ticketPrice: Double
+        ticketPrice: Double,
+        row: String
     )
 }

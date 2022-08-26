@@ -18,6 +18,7 @@ class MovieSeatViewHolder(
     private var takenSeatName: String = ""
     private var removeSeatName: String = ""
     private var ticketPrice: Double = 0.0
+    private var row: String = ""
 
     @SuppressLint("ResourceAsColor")
     fun bindData(data: MovieSeatVO) {
@@ -37,6 +38,9 @@ class MovieSeatViewHolder(
                         }
                         data.price?.let {
                             ticketPrice = +it.toDouble()
+                        }
+                        data.symbol?.let {
+                            row = it
                         }
                         itemView.tvMovieSeatTitle.apply {
                             visibility = View.VISIBLE
@@ -60,6 +64,9 @@ class MovieSeatViewHolder(
                         data.price?.let {
                             ticketPrice = -it.toDouble()
                         }
+                        data.symbol?.let {
+                            row = ""
+                        }
                         itemView.tvMovieSeatTitle.visibility = View.GONE
                         itemView.flMovieSeat.backgroundTintList = ContextCompat.getColorStateList(
                             itemView.context,
@@ -67,7 +74,13 @@ class MovieSeatViewHolder(
                         )
                     }
 
-                    mDelegate.onTapMovieSeat(takenSeatName, removeSeatName, totalSeats, ticketPrice)
+                    mDelegate.onTapMovieSeat(
+                        takenSeatName,
+                        removeSeatName,
+                        totalSeats,
+                        ticketPrice,
+                        row
+                    )
                 }
             }
             data.isMovieSeatTaken() -> {

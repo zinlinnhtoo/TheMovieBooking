@@ -9,6 +9,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
 import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
@@ -29,19 +32,38 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
 
     //field from seat activity
     private var mPrice: Double? = null
+    private var mCinemaDayTimeslotId: Int? = null
+    private var mRow: String? = null
+    private var mSeatName: String? = null
+    private var mDate: String? = null
+    private var mMovieId: Int? = null
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
     private var mSnackList: MutableList<SnackVO> = mutableListOf()
-    private var mSnackIdList: MutableList<Int> = mutableListOf()
     private var mTotalPrice: Double = 0.0
     private var mTotalSnackPrice: Double = 0.0
 
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
+        const val EXTRA_CINEMA_LIST = "EXTRA_CINEMA_LIST"
+        const val EXTRA_SEAT_NAME = "EXTRA_SEAT_NAME"
 
-        fun newIntent(context: Context, price: Double): Intent {
+        fun newIntent(
+            context: Context,
+            price: Double,
+            cinemaDayTimeslotId: Int,
+            row: String,
+            seatName: String,
+            date: String,
+            movieId: Int
+        ): Intent {
             val intent = Intent(context, SnackActivity::class.java)
             intent.putExtra(EXTRA_PRICE_IN_SNACK_BUTTON, price)
+            intent.putExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, cinemaDayTimeslotId)
+            intent.putExtra(EXTRA_CINEMA_LIST, row)
+            intent.putExtra(EXTRA_SEAT_NAME, seatName)
+            intent.putExtra(EXTRA_DATE, date)
+            intent.putExtra(EXTRA_MOVIE_ID, movieId)
             return intent
         }
     }
@@ -51,6 +73,11 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snack)
 
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mDate = intent?.getStringExtra(EXTRA_DATE)
+        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+        mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
         mPrice = intent?.getDoubleExtra(EXTRA_PRICE_IN_SNACK_BUTTON, 0.0)
         mPrice?.let {
             mTotalPrice = it
@@ -79,7 +106,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         }
 
         btnGotoPaymentCard.setOnClickListener {
-            startActivity(PaymentCardActivity.newIntentWithPrice(this, mTotalPrice))
+            startActivity(PaymentCardActivity.newIntentWithPrice(this, mTotalPrice, mCinemaDayTimeslotId ?: 0, mRow.orEmpty(), mSeatName.orEmpty(), mDate.orEmpty(), mMovieId ?: 0))
         }
     }
 
