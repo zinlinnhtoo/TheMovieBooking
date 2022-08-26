@@ -123,4 +123,31 @@ object MovieBookingModelImpl: MovieBookingModel {
             onFailure = onFailure
         )
     }
+
+    override fun createCard(
+        cardNumber: String,
+        cardHolder: String,
+        expirationDate: String,
+        cvc: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mMovieBookingDataAgent.createCard(
+            token = userToken.orEmpty(),
+            cardNumber = cardNumber,
+            cardHolder = cardHolder,
+            expirationDate = expirationDate,
+            cvc = cvc,
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
+
+    override fun getCard(onSuccess: (List<CardVO>) -> Unit, onFailure: (String) -> Unit) {
+        mMovieBookingDataAgent.getCard(
+            token = userToken.orEmpty(),
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
 }

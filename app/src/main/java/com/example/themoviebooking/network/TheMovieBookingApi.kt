@@ -1,5 +1,6 @@
 package com.example.themoviebooking.network
 
+import com.example.themoviebooking.data.vos.UserVO
 import com.example.themoviebooking.network.responses.*
 import com.example.themoviebooking.utils.*
 import retrofit2.Call
@@ -56,4 +57,19 @@ interface TheMovieBookingApi {
     fun getPaymentMethod(
         @Header("Authorization") token: String
     ): Call<PaymentCardResponse>
+
+    @POST(API_CREATE_CARD)
+    @FormUrlEncoded
+    fun createCard(
+        @Header("Authorization") token: String,
+        @Field("card_number") cardNumber: String,
+        @Field("card_holder") cardHolder: String,
+        @Field("expiration_date") expirationDate: String,
+        @Field("cvc") cvc: String
+    ): Call<CardResponse>
+
+    @GET(API_USER_PROFILE)
+    fun getCard(
+        @Header("Authorization") token: String
+    ): Call<LoginUserResponse>
 }

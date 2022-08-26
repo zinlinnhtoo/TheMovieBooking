@@ -277,4 +277,68 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
             }
         )
     }
+
+    override fun createCard(
+        token: String,
+        cardNumber: String,
+        cardHolder: String,
+        expirationDate: String,
+        cvc: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.createCard(
+            token = BEARER + token,
+            cardNumber = cardNumber,
+            cardHolder = cardHolder,
+            expirationDate = expirationDate,
+            cvc = cvc
+        )?.enqueue(
+            object : Callback<CardResponse> {
+                override fun onResponse(
+                    call: Call<CardResponse>,
+                    response: Response<CardResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.message?.let { onSuccess(it) }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<CardResponse>, t: Throwable) {
+                    onFailure(t.message.orEmpty())
+                }
+            }
+        )
+    }
+
+    override fun getCard(
+        token: String,
+        onSuccess: (List<CardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.getCard(
+            token = BEARER + token
+        )?.enqueue(
+            object : Callback<LoginUserResponse> {
+                override fun onResponse(
+                    call: Call<LoginUserResponse>,
+                    response: Response<LoginUserResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.cards?.let {
+                            onSuccess(it)
+                        }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginUserResponse>, t: Throwable) {
+                    onFailure(t.message.orEmpty())
+                }
+            }
+        )
+    }
 }

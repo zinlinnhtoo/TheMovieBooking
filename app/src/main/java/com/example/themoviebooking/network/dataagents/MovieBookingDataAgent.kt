@@ -59,4 +59,20 @@ interface MovieBookingDataAgent {
         onSuccess: (List<PaymentCardVO>) -> Unit,
         onFailure: (String) -> Unit
     )
+
+    fun createCard(
+        token: String,
+        cardNumber: String,
+        cardHolder: String,
+        expirationDate: String,
+        cvc: String,
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun getCard(
+        token: String,
+        onSuccess: (List<CardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
 }

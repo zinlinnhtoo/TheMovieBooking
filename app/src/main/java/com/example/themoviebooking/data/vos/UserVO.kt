@@ -19,8 +19,9 @@ data class UserVO(
     val totalExpense: Int? = 0,
 
     @SerializedName("profile_image")
-    val profileImage: String?
+    val profileImage: String?,
 
-    //to add card list
+    @SerializedName("cards")
+    val cards: List<CardVO>?
 
 )

@@ -57,7 +57,7 @@
             android:layout_below="@id/tvCardNumber"
             android:layout_marginStart="@dimen/margin_medium_2"
             android:layout_marginEnd="@dimen/margin_medium_2"
-            android:layout_marginBottom="@dimen/margin_medium_2"/>
+            android:layout_marginBottom="@dimen/margin_medium_2" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvCardHolder"
