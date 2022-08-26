@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
@@ -31,7 +32,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
     private var mSnackList: MutableList<SnackVO> = mutableListOf()
-    private var mSnackPrice: Double = 0.0
+    private var mSnackIdList: MutableList<Int> = mutableListOf()
     private var mTotalPrice: Double = 0.0
     private var mTotalSnackPrice: Double = 0.0
 
@@ -63,6 +64,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         setUpSnackRecyclerView()
         setUpPaymentMethodRecyclerView()
         requestData()
+
     }
 
     private fun setUpPaymentMethodRecyclerView() {

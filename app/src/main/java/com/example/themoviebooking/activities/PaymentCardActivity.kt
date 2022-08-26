@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.CreditCardAdapter
@@ -29,6 +30,7 @@ class PaymentCardActivity : AppCompatActivity() {
     private var mTotalPrice: Double? = null
 
     private var mCardList: MutableList<CardVO> = mutableListOf()
+    private var mCardId: Int? = 0
 
     companion object {
         const val EXTRA_TOTAL_PRICE = "EXTRA_TOTAL_PRICE"
@@ -97,6 +99,13 @@ class PaymentCardActivity : AppCompatActivity() {
         rvCarouselCreditCard.setInfinite(true)
         rvCarouselCreditCard.setIntervalRatio(0.75f)
         carouselLayoutManager = rvCarouselCreditCard.getCarouselLayoutManager()
+        rvCarouselCreditCard.setItemSelectListener(
+            object : CarouselLayoutManager.OnSelected {
+                override fun onItemSelected(position: Int) {
+                    mCardId = mCardList[position].id
+                }
+            }
+        )
     }
 
     private fun setUpListener() {
