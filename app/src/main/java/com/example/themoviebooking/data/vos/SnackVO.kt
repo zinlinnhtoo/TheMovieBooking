@@ -19,5 +19,6 @@ data class SnackVO(
     val image: String?,
 
     var quantity: Int = 0,
+    var totalPrice: Double = 0.0,
     var isSelectedMinusButton: Boolean? = true
 )

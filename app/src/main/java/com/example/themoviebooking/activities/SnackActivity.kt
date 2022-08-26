@@ -30,8 +30,10 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private var mPrice: Double? = null
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
+    private var mSnackList: MutableList<SnackVO> = mutableListOf()
     private var mSnackPrice: Double = 0.0
     private var mTotalPrice: Double = 0.0
+    private var mTotalSnackPrice: Double = 0.0
 
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
@@ -49,8 +51,12 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         setContentView(R.layout.activity_snack)
 
         mPrice = intent?.getDoubleExtra(EXTRA_PRICE_IN_SNACK_BUTTON, 0.0)
-        btnGotoPaymentCard.text = "Pay $$mPrice"
-        tvSubTotal.text = "$mPrice$"
+        mPrice?.let {
+            btnGotoPaymentCard.text = "Pay $$it"
+            tvSubTotal.text = "$it$"
+        }
+
+
 
         setUpListener()
         setUpSnackRecyclerView()
@@ -83,6 +89,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private fun requestData() {
         mMovieBookingModel.getSnack(
             onSuccess = {
+                mSnackList = it.toMutableList()
                 mSnackAdapter.setNewData(it)
             },
             onFailure = {
@@ -111,22 +118,32 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     @SuppressLint("SetTextI18n")
     override fun onTapSnackToggleButton(snack: SnackVO) {
 
-        if (snack.isSelectedMinusButton == false) {
-            snack.price?.let { price ->
-                mSnackPrice = price * snack.quantity
-            }
-        } else {
-            snack.price?.let { price ->
-                mSnackPrice = price * snack.quantity
+        mSnackList.forEach { mSnack ->
+            if (mSnack.id == snack.id) {
+                if (snack.isSelectedMinusButton == false) {
+                    snack.price?.let { price ->
+                        snack.totalPrice = price * snack.quantity
+                        mSnack.totalPrice = snack.totalPrice
+                    }
+                } else {
+                    snack.price?.let { price ->
+                        snack.totalPrice = price * snack.quantity
+                        mSnack.totalPrice = snack.totalPrice
+                    }
+                }
             }
         }
 
-        mPrice?.let {
-            mTotalPrice = it.plus(mSnackPrice)
+        var totalSnackPrice = 0.0
+        mSnackList.forEach {
+            totalSnackPrice += it.totalPrice
+            mTotalSnackPrice = totalSnackPrice
         }
-        Toast.makeText(this, "${snack.id}", Toast.LENGTH_SHORT).show()
+
+        mTotalPrice = mPrice?.plus(mTotalSnackPrice) ?: 0.0
+        
         btnGotoPaymentCard.text = "Pay $$mTotalPrice"
-        tvSubTotal.text = "$mTotalPrice"
+        tvSubTotal.text = "$mTotalPrice$"
     }
     
 }
