@@ -18,5 +18,6 @@ data class SnackVO(
     @SerializedName("image")
     val image: String?,
 
-    val quantity: Int? = 0
+    var quantity: Int = 0,
+    var isSelectedMinusButton: Boolean? = true
 )

@@ -14,27 +14,24 @@ class SnackViewHolder(
 ) : RecyclerView.ViewHolder(itemView) {
 
     private var mSnackQuantity: Int = 0
-    private var mSnackPrice: Double = 0.0
 
     @SuppressLint("SetTextI18n")
     fun bindData(snack: SnackVO) {
 
-        snack.price?.let {
-            mSnackPrice = it
-        }
-
         itemView.btnPlusToggle.setOnClickListener {
-            mSnackQuantity += 1
-            mDelegate.onTapSnackToggleButton(mSnackPrice)
-            itemView.btnSnackCountToggle.text = mSnackQuantity.toString()
+            snack.quantity += 1
+            mDelegate.onTapSnackToggleButton(snack)
+            itemView.btnSnackCountToggle.text = snack.quantity.toString()
         }
 
         itemView.btnMinusToggle.setOnClickListener {
-            if (mSnackQuantity > 0) {
-                mSnackQuantity -= 1
-                mDelegate.onTapSnackToggleButton(-mSnackPrice)
+            snack.isSelectedMinusButton = true
+            if (snack.quantity > 0 && snack.isSelectedMinusButton == true) {
+                snack.quantity -= 1
+                mDelegate.onTapSnackToggleButton(snack)
+                snack.isSelectedMinusButton = false
             }
-            itemView.btnSnackCountToggle.text = mSnackQuantity.toString()
+            itemView.btnSnackCountToggle.text = snack.quantity.toString()
         }
 
 

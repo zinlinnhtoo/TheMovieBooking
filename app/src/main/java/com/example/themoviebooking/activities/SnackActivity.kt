@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
@@ -12,6 +13,7 @@ import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.data.vos.SnackVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import com.example.themoviebooking.delegates.SnackToggleButtonDelegate
 import com.example.themoviebooking.utils.showErrorToast
@@ -107,11 +109,22 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onTapSnackToggleButton(price: Double) {
-        mSnackPrice += price
+    override fun onTapSnackToggleButton(snack: SnackVO) {
+
+        if (snack.isSelectedMinusButton == false) {
+            snack.price?.let { price ->
+                mSnackPrice = price * snack.quantity
+            }
+        } else {
+            snack.price?.let { price ->
+                mSnackPrice = price * snack.quantity
+            }
+        }
+
         mPrice?.let {
             mTotalPrice = it.plus(mSnackPrice)
         }
+        Toast.makeText(this, "${snack.id}", Toast.LENGTH_SHORT).show()
         btnGotoPaymentCard.text = "Pay $$mTotalPrice"
         tvSubTotal.text = "$mTotalPrice"
     }
