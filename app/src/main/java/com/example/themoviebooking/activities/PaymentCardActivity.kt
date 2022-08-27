@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
@@ -14,11 +13,14 @@ import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_CINEMA_LIST
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SEAT_NAME
+import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SNACK_JSON
 import com.example.themoviebooking.adapters.CreditCardAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.CardVO
+import com.example.themoviebooking.data.vos.CarrierSnackList
 import com.example.themoviebooking.utils.showErrorToast
+import com.google.gson.Gson
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import kotlinx.android.synthetic.main.activity_payment_card.*
 
@@ -38,6 +40,7 @@ class PaymentCardActivity : AppCompatActivity() {
     private var mSeatName: String? = null
     private var mDate: String? = null
     private var mMovieId: Int? = null
+    private var mSnackJson: String? = null
 
     private var mCardList: MutableList<CardVO> = mutableListOf()
     private var mCardId: Int? = 0
@@ -51,7 +54,8 @@ class PaymentCardActivity : AppCompatActivity() {
             row: String,
             seatName: String,
             date: String,
-            movieId: Int
+            movieId: Int,
+            snackJson: String
         ): Intent {
             return Intent(context, PaymentCardActivity::class.java)
                 .putExtra(EXTRA_TOTAL_PRICE, price)
@@ -60,6 +64,7 @@ class PaymentCardActivity : AppCompatActivity() {
                 .putExtra(EXTRA_SEAT_NAME, seatName)
                 .putExtra(EXTRA_DATE, date)
                 .putExtra(EXTRA_MOVIE_ID, movieId)
+                .putExtra(EXTRA_SNACK_JSON, snackJson)
         }
 
         fun newIntent(context: Context): Intent {
@@ -72,6 +77,11 @@ class PaymentCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_card)
 
+        mSnackJson = intent?.getStringExtra(EXTRA_SNACK_JSON)
+        mSnackJson?.let {
+            val carrierSnackObjList = Gson().fromJson(it, CarrierSnackList::class.java)
+            Toast.makeText(this, "$carrierSnackObjList", Toast.LENGTH_SHORT).show()
+        }
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieId?.let {
             Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
@@ -145,7 +155,7 @@ class PaymentCardActivity : AppCompatActivity() {
         rvCarouselCreditCard.setItemSelectListener(
             object : CarouselLayoutManager.OnSelected {
                 override fun onItemSelected(position: Int) {
-                    mCardId = mCardList[position].id
+                    mCardId = mCardList.getOrNull(position)?.id
                 }
             }
         )

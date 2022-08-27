@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
@@ -16,11 +14,13 @@ import com.example.themoviebooking.adapters.PaymentMethodAdapter
 import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
+import com.example.themoviebooking.data.vos.CarrierSnackVO
 import com.example.themoviebooking.data.vos.PaymentCardVO
 import com.example.themoviebooking.data.vos.SnackVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import com.example.themoviebooking.delegates.SnackToggleButtonDelegate
 import com.example.themoviebooking.utils.showErrorToast
+import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_snack.*
 
 class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleButtonDelegate {
@@ -43,10 +43,14 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private var mTotalPrice: Double = 0.0
     private var mTotalSnackPrice: Double = 0.0
 
+    //snack json
+    private var mSnackJson: String? = ""
+
     companion object {
         const val EXTRA_PRICE_IN_SNACK_BUTTON = "EXTRA_PRICE_IN_SNACK_BUTTON"
         const val EXTRA_CINEMA_LIST = "EXTRA_CINEMA_LIST"
         const val EXTRA_SEAT_NAME = "EXTRA_SEAT_NAME"
+        const val EXTRA_SNACK_JSON = "EXTRA_SNACK_JSON"
 
         fun newIntent(
             context: Context,
@@ -106,7 +110,16 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         }
 
         btnGotoPaymentCard.setOnClickListener {
-            startActivity(PaymentCardActivity.newIntentWithPrice(this, mTotalPrice, mCinemaDayTimeslotId ?: 0, mRow.orEmpty(), mSeatName.orEmpty(), mDate.orEmpty(), mMovieId ?: 0))
+            startActivity(PaymentCardActivity.newIntentWithPrice(this,
+                    mTotalPrice,
+                    mCinemaDayTimeslotId ?: 0,
+                    mRow.orEmpty(),
+                    mSeatName.orEmpty(),
+                    mDate.orEmpty(),
+                    mMovieId ?: 0,
+                    mSnackJson.orEmpty()
+                )
+            )
         }
     }
 
@@ -170,7 +183,19 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             mTotalSnackPrice = totalSnackPrice
         }
 
-        mTotalPrice = mPrice?.plus(mTotalSnackPrice) ?: 0.0
+        val carrierSnackList : MutableList<CarrierSnackVO> = mutableListOf()
+            mSnackList.forEach {
+            if (it.quantity != 0) {
+                val carrierSnack = CarrierSnackVO(
+                    id = it.id ?: 0,
+                    quantity = it.quantity
+                )
+                carrierSnackList.add(carrierSnack)
+            }
+        }
+        mSnackJson = Gson().toJson(carrierSnackList)
+
+            mTotalPrice = mPrice?.plus(mTotalSnackPrice) ?: 0.0
 
         btnGotoPaymentCard.text = "Pay $$mTotalPrice"
         tvSubTotal.text = "$mTotalPrice$"
