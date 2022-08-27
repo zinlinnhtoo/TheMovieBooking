@@ -11,6 +11,7 @@ import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTR
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
 import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
@@ -39,6 +40,12 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private var mDate: String? = null
     private var mMovieId: Int? = null
     private var mCinemaId: Int? = null
+    private var mMovieTime: String? = null
+    private var mMovieDay: String? = null
+    private var mMovieWeekdayForVoucher: String? = null
+    private var mCinemaName: String? = null
+    private var mMovieTitle: String? = null
+    private var mMoviePosterPath: String? = null
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
     private var mSnackList: MutableList<SnackVO> = mutableListOf()
@@ -62,7 +69,13 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             seatName: String,
             date: String,
             movieId: Int,
-            cinemaId: Int
+            cinemaId: Int,
+            movieTime: String,
+            movieDay: String,
+            movieWeekdayForVoucher: String,
+            cinemaName: String,
+            movieTitle: String,
+            moviePosterPath: String
         ): Intent {
             val intent = Intent(context, SnackActivity::class.java)
             intent.putExtra(EXTRA_PRICE_IN_SNACK_BUTTON, price)
@@ -72,6 +85,12 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             intent.putExtra(EXTRA_DATE, date)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
             intent.putExtra(EXTRA_CINEMA_ID, cinemaId)
+            intent.putExtra(MovieSeatActivity.EXTRA_MOVIE_TIME, movieTime)
+            intent.putExtra(MovieSeatActivity.EXTRA_MOVIE_DAY, movieDay)
+            intent.putExtra(EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER, movieWeekdayForVoucher)
+            intent.putExtra(MovieSeatActivity.EXTRA_CINEMA_NAME, cinemaName)
+            intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE, movieTitle)
+            intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH, moviePosterPath)
             return intent
         }
     }
@@ -81,6 +100,12 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snack)
 
+        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
+        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
+        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
+        mMovieWeekdayForVoucher = intent?.getStringExtra(EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
+        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
+        mMovieTime = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_TIME)
         mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mDate = intent?.getStringExtra(EXTRA_DATE)
@@ -115,7 +140,9 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         }
 
         btnGotoPaymentCard.setOnClickListener {
-            startActivity(PaymentCardActivity.newIntentWithPrice(this,
+            startActivity(PaymentCardActivity
+                .newIntentWithPrice(
+                    this,
                     mTotalPrice,
                     mCinemaDayTimeslotId ?: 0,
                     mRow.orEmpty(),
@@ -123,7 +150,13 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
                     mDate.orEmpty(),
                     mMovieId ?: 0,
                     mCinemaId ?: 0,
-                    mSnackJson.orEmpty()
+                    mSnackJson.orEmpty(),
+                    mMovieTime.orEmpty(),
+                    mMovieDay.orEmpty(),
+                    mMovieWeekdayForVoucher.orEmpty(),
+                    mCinemaName.orEmpty(),
+                    mMovieTitle.orEmpty(),
+                    mMoviePosterPath.orEmpty()
                 )
             )
         }

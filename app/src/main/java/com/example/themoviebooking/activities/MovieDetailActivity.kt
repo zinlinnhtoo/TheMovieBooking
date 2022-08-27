@@ -23,12 +23,14 @@ class MovieDetailActivity : AppCompatActivity() {
 
     private var mMovieId: Int? = null
     private var mMovieTitle: String? = null
+    private var mMoviePosterPath: String? = null
 
     private var mTheMovieDBModel: TheMovieDBModel = TheMovieDBModelImpl
 
     companion object {
         const val EXTRA_MOVIE_ID = "EXTRA_MOVIE_ID"
         const val EXTRA_MOVIE_TITLE = "EXTRA_MOVIE_TITLE"
+        const val EXTRA_MOVIE_POSTER_PATH = "EXTRA_MOVIE_POSTER_PATH"
         fun newIntent(context: Context, movieId: Int, movieTitle: String): Intent {
             val intent = Intent(context, MovieDetailActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
@@ -67,7 +69,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
         btnGetYourTicket.setOnClickListener{
             mMovieId?.let {
-                startActivity(MovieDateTimeActivity.newIntent(this, it, mMovieTitle.orEmpty()))
+                startActivity(MovieDateTimeActivity.newIntent(this, it, mMovieTitle.orEmpty(), mMoviePosterPath.orEmpty()))
             }
         }
     }
@@ -104,6 +106,7 @@ class MovieDetailActivity : AppCompatActivity() {
         Glide.with(this)
             .load("$IMAGE_BASE_URL${movie.posterPath}")
             .into(ivMoviePoster)
+        mMoviePosterPath = movie.posterPath
         tvMovieTitle.text = movie.title ?: ""
         tvMoviePlayTime.text = movie.runTime?.toString() ?: ""
         rbMovieRatingBar.rating = movie.getRatingBasedOnFiveStars()

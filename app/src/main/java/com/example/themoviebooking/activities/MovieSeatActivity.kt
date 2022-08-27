@@ -40,6 +40,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private var mDate: String? = null
     private var mMovieId: Int? = null
     private var mCinemaId: Int? = null
+    private var mMovieWeekdayForVoucher: String? = null
+    private var mMoviePosterPath: String? = null
 
     //field for snack activity
     private var mPrice: Double? = 0.0
@@ -54,6 +56,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         const val EXTRA_DATE = "EXTRA_DATE"
         const val EXTRA_CINEMA_DAY_TIMESLOT_ID = "EXTRA_CINEMA_DAY_TIMESLOT_ID"
         const val EXTRA_CINEMA_ID = "EXTRA_CINEMA_ID"
+        const val EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER = "EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER"
         fun newIntent(context: Context,
                       movieTitle: String,
                       movieWeekday: String,
@@ -64,7 +67,9 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
                       cinemaDayTimeslotId: Int,
                       date: String,
                       movieId: Int,
-                      cinemaId: Int
+                      cinemaId: Int,
+                      movieWeekdayForVoucher: String,
+                      moviePosterPath: String
         ): Intent {
             val intent = Intent(context, MovieSeatActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
@@ -77,6 +82,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
             intent.putExtra(EXTRA_DATE, date)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
             intent.putExtra(EXTRA_CINEMA_ID, cinemaId)
+            intent.putExtra(EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER, movieWeekdayForVoucher)
+            intent.putExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH, moviePosterPath)
             return intent
         }
     }
@@ -85,6 +92,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_seat)
 
+        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
+        mMovieWeekdayForVoucher = intent?.getStringExtra(EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
         mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
@@ -134,7 +143,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private fun setUpListener() {
         btnGotoSnack.setOnClickListener {
             mPrice?.let {
-                startActivity(SnackActivity.newIntent(
+                startActivity(SnackActivity
+                    .newIntent(
                         this,
                         it,
                         mCinemaDayTimeslotId ?: 0,
@@ -142,7 +152,13 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
                         mSeatName,
                         mDate.orEmpty(),
                         mMovieId ?: 0,
-                        mCinemaId ?: 0
+                        mCinemaId ?: 0,
+                        mMovieTime.orEmpty(),
+                        mMovieDay.orEmpty(),
+                        mMovieWeekdayForVoucher.orEmpty(),
+                        mCinemaName.orEmpty(),
+                        mMovieTitle.orEmpty(),
+                        mMoviePosterPath.orEmpty()
                     )
                 )
             }

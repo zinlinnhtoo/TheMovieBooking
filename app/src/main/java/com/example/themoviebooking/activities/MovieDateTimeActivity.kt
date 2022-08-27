@@ -8,6 +8,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
+import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_POSTER_PATH
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_TITLE
 import com.example.themoviebooking.adapters.MovieDateAdapter
 import com.example.themoviebooking.adapters.MovieTimeAdapter
@@ -41,14 +42,17 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     private var mDate: String? = null
     private var mCinemaDayTimeslotId: Int? = null
     private var mCinemaId: Int? = null
+    private var mMovieWeekDayForVoucher: String? = null
+    private var mMoviePosterPath: String? = null
 
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
     companion object {
-        fun newIntent(context: Context, movieId: Int, movieTitle: String): Intent {
+        fun newIntent(context: Context, movieId: Int, movieTitle: String, moviePosterPath: String): Intent {
             val intent = Intent(context, MovieDateTimeActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
             intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
+            intent.putExtra(EXTRA_MOVIE_POSTER_PATH, moviePosterPath)
             return intent
         }
     }
@@ -62,6 +66,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         setUpMovieTimeRecyclerView()
         addNextTwoWeekDate()
 
+        mMoviePosterPath = intent?.getStringExtra(EXTRA_MOVIE_POSTER_PATH)
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
 
@@ -75,6 +80,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
             mMovieWeekDay = it.weekdayInName
             mMovieDay = it.day
             mMovieMonth = it.monthInName
+            mMovieWeekDayForVoucher = it.weekday
         }
     }
 
@@ -101,7 +107,9 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                     mCinemaDayTimeslotId ?: 0,
                     mDate.orEmpty(),
                     mMovieId ?: 0,
-                    mCinemaId ?: 0
+                    mCinemaId ?: 0,
+                    mMovieWeekDayForVoucher.orEmpty(),
+                    mMoviePosterPath.orEmpty()
                 ))
             }
         }

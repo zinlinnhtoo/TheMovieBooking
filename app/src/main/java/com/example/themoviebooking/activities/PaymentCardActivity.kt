@@ -13,6 +13,7 @@ import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTR
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_MOVIE_TIME
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_CINEMA_LIST
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SEAT_NAME
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SNACK_JSON
@@ -46,6 +47,12 @@ class PaymentCardActivity : AppCompatActivity() {
     private var mMovieId: Int? = null
     private var mCinemaId: Int? = null
     private var mSnackJson: String? = null
+    private var mMovieTime: String? = null
+    private var mMovieDay: String? = null
+    private var mMovieWeekdayForVoucher: String? = null
+    private var mCinemaName: String? = null
+    private var mMovieTitle: String? = null
+    private var mMoviePosterPath: String? = null
 
     private var cinemaDayTimeslotId: String = ""
     private var row: String = ""
@@ -72,7 +79,13 @@ class PaymentCardActivity : AppCompatActivity() {
             date: String,
             movieId: Int,
             cinemaId: Int,
-            snackJson: String
+            snackJson: String,
+            movieTime: String,
+            movieDay: String,
+            movieWeekdayForVoucher: String,
+            cinemaName: String,
+            movieTitle: String,
+            moviePosterPath: String
         ): Intent {
             return Intent(context, PaymentCardActivity::class.java)
                 .putExtra(EXTRA_TOTAL_PRICE, price)
@@ -83,6 +96,12 @@ class PaymentCardActivity : AppCompatActivity() {
                 .putExtra(EXTRA_MOVIE_ID, movieId)
                 .putExtra(EXTRA_CINEMA_ID, cinemaId)
                 .putExtra(EXTRA_SNACK_JSON, snackJson)
+                .putExtra(EXTRA_MOVIE_TIME, movieTime)
+                .putExtra(MovieSeatActivity.EXTRA_MOVIE_DAY, movieDay)
+                .putExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER, movieWeekdayForVoucher)
+                .putExtra(MovieSeatActivity.EXTRA_CINEMA_NAME, cinemaName)
+                .putExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE, movieTitle)
+                .putExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH, moviePosterPath)
         }
 
         fun newIntent(context: Context): Intent {
@@ -95,6 +114,12 @@ class PaymentCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_card)
 
+        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
+        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
+        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
+        mMovieWeekdayForVoucher = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
+        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
+        mMovieTime = intent?.getStringExtra(EXTRA_MOVIE_TIME)
         mSnackJson = intent?.getStringExtra(EXTRA_SNACK_JSON)
         mSnackJson?.let {
             val carrierSnackObj = Gson().fromJson(it, CarrierSnackList::class.java)
@@ -208,7 +233,20 @@ class PaymentCardActivity : AppCompatActivity() {
                 snack = snack,
                 onSuccess = {
                     mMovieBookingNumber = it.bookingNumber.orEmpty()
-                    startActivity(VoucherActivity.newIntent(this, mMovieBookingNumber))
+                    startActivity(VoucherActivity
+                        .newIntent(this,
+                            mMovieBookingNumber,
+                            mMovieTime.orEmpty(),
+                            mMovieDay.orEmpty(),
+                            mMovieWeekdayForVoucher.orEmpty(),
+                            mCinemaName.orEmpty(),
+                            mRow.orEmpty(),
+                            mSeatName.orEmpty(),
+                            mTotalPrice ?: 0.0,
+                            mMovieTitle.orEmpty(),
+                            mMoviePosterPath.orEmpty()
+                        )
+                    )
                     Log.i("CheckOut", mMovieBookingNumber)
                 },
                 onFailure = {
