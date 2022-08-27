@@ -116,6 +116,7 @@ class VoucherActivity : AppCompatActivity() {
 
     private fun setUpListener() {
         btnClose.setOnClickListener {
+            startActivity(HomeActivity.newIntent(this))
             finish()
         }
     }
