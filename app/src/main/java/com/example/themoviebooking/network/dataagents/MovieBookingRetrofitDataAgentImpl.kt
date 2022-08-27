@@ -341,4 +341,35 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
             }
         )
     }
+
+    override fun checkOut(
+        token: String,
+        checkOutRequest: CheckOutRequest,
+        onSuccess: (CheckOutVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        mTheMovieBookingApi?.checkOut(
+            token = BEARER + token,
+            checkOutRequest = checkOutRequest
+        )?.enqueue(
+            object : Callback<CheckOutResponse> {
+                override fun onResponse(
+                    call: Call<CheckOutResponse>,
+                    response: Response<CheckOutResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        response.body()?.data?.let {
+                            onSuccess(it)
+                        }
+                    } else {
+                        onFailure(response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<CheckOutResponse>, t: Throwable) {
+                    onFailure(t.message.orEmpty())
+                }
+            }
+        )
+    }
 }

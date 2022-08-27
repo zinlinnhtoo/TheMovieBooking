@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
 import com.example.themoviebooking.adapters.PaymentMethodAdapter
 import com.example.themoviebooking.adapters.SnackAdapter
@@ -37,6 +38,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private var mSeatName: String? = null
     private var mDate: String? = null
     private var mMovieId: Int? = null
+    private var mCinemaId: Int? = null
 
     private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
     private var mSnackList: MutableList<SnackVO> = mutableListOf()
@@ -59,7 +61,8 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             row: String,
             seatName: String,
             date: String,
-            movieId: Int
+            movieId: Int,
+            cinemaId: Int
         ): Intent {
             val intent = Intent(context, SnackActivity::class.java)
             intent.putExtra(EXTRA_PRICE_IN_SNACK_BUTTON, price)
@@ -68,6 +71,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             intent.putExtra(EXTRA_SEAT_NAME, seatName)
             intent.putExtra(EXTRA_DATE, date)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
+            intent.putExtra(EXTRA_CINEMA_ID, cinemaId)
             return intent
         }
     }
@@ -77,6 +81,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snack)
 
+        mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mDate = intent?.getStringExtra(EXTRA_DATE)
         mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
@@ -117,6 +122,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
                     mSeatName.orEmpty(),
                     mDate.orEmpty(),
                     mMovieId ?: 0,
+                    mCinemaId ?: 0,
                     mSnackJson.orEmpty()
                 )
             )
@@ -187,13 +193,14 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
             mSnackList.forEach {
             if (it.quantity != 0) {
                 val carrierSnack = CarrierSnackVO(
-                    id = it.id ?: 0,
-                    quantity = it.quantity
+                    id = it.id.toString(),
+                    quantity = it.quantity.toString()
                 )
                 carrierSnackList.add(carrierSnack)
             }
         }
         mSnackJson = Gson().toJson(carrierSnackList)
+
 
             mTotalPrice = mPrice?.plus(mTotalSnackPrice) ?: 0.0
 

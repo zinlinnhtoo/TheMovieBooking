@@ -6,10 +6,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.example.themoviebooking.R
 import com.example.themoviebooking.activities.MovieDetailActivity.Companion.EXTRA_MOVIE_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_DAY_TIMESLOT_ID
+import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_CINEMA_ID
 import com.example.themoviebooking.activities.MovieSeatActivity.Companion.EXTRA_DATE
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_CINEMA_LIST
 import com.example.themoviebooking.activities.SnackActivity.Companion.EXTRA_SEAT_NAME
@@ -19,10 +21,12 @@ import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.CardVO
 import com.example.themoviebooking.data.vos.CarrierSnackList
+import com.example.themoviebooking.data.vos.CarrierSnackVO
 import com.example.themoviebooking.utils.showErrorToast
 import com.google.gson.Gson
 import com.jackandphantom.carouselrecyclerview.CarouselLayoutManager
 import kotlinx.android.synthetic.main.activity_payment_card.*
+import kotlin.math.log
 
 class PaymentCardActivity : AppCompatActivity() {
 
@@ -40,10 +44,22 @@ class PaymentCardActivity : AppCompatActivity() {
     private var mSeatName: String? = null
     private var mDate: String? = null
     private var mMovieId: Int? = null
+    private var mCinemaId: Int? = null
     private var mSnackJson: String? = null
+
+    private var cinemaDayTimeslotId: String = ""
+    private var row: String = ""
+    private var seatNumber: String = ""
+    private var bookingDate: String = ""
+    private var totalPrice: String = ""
+    private var movieId: String = ""
+    private var cardId: String = ""
+    private var cinemaId: String = ""
+    private var snack: MutableList<CarrierSnackVO> = mutableListOf()
 
     private var mCardList: MutableList<CardVO> = mutableListOf()
     private var mCardId: Int? = 0
+    private var mMovieBookingNumber: String = ""
 
     companion object {
         const val EXTRA_TOTAL_PRICE = "EXTRA_TOTAL_PRICE"
@@ -55,6 +71,7 @@ class PaymentCardActivity : AppCompatActivity() {
             seatName: String,
             date: String,
             movieId: Int,
+            cinemaId: Int,
             snackJson: String
         ): Intent {
             return Intent(context, PaymentCardActivity::class.java)
@@ -64,6 +81,7 @@ class PaymentCardActivity : AppCompatActivity() {
                 .putExtra(EXTRA_SEAT_NAME, seatName)
                 .putExtra(EXTRA_DATE, date)
                 .putExtra(EXTRA_MOVIE_ID, movieId)
+                .putExtra(EXTRA_CINEMA_ID, cinemaId)
                 .putExtra(EXTRA_SNACK_JSON, snackJson)
         }
 
@@ -79,31 +97,39 @@ class PaymentCardActivity : AppCompatActivity() {
 
         mSnackJson = intent?.getStringExtra(EXTRA_SNACK_JSON)
         mSnackJson?.let {
-            val carrierSnackObjList = Gson().fromJson(it, CarrierSnackList::class.java)
-            Toast.makeText(this, "$carrierSnackObjList", Toast.LENGTH_SHORT).show()
+            val carrierSnackObj = Gson().fromJson(it, CarrierSnackList::class.java)
+//            snack.add(carrierSnackObj)
+            carrierSnackObj.forEach { carrierSnackObj ->
+                snack.add(carrierSnackObj)
+            }
+        }
+        mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
+        mCinemaId?.let {
+            cinemaId = it.toString()
         }
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieId?.let {
-            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+            movieId = it.toString()
         }
         mDate = intent?.getStringExtra(EXTRA_DATE)
         mDate?.let {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            bookingDate = it
         }
         mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
         mSeatName?.let {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            seatNumber = it
         }
         mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
         mRow?.let {
-            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            row = it
         }
         mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
         mCinemaDayTimeslotId?.let {
-            Toast.makeText(this, "$it", Toast.LENGTH_SHORT).show()
+            cinemaDayTimeslotId = it.toString()
         }
         mTotalPrice = intent?.getDoubleExtra(EXTRA_TOTAL_PRICE, 0.0)
         mTotalPrice?.let {
+            totalPrice = it.toString()
             tvPaymentAmount.text = "$ $it"
         }
 
@@ -154,6 +180,7 @@ class PaymentCardActivity : AppCompatActivity() {
             object : CarouselLayoutManager.OnSelected {
                 override fun onItemSelected(position: Int) {
                     mCardId = mCardList.getOrNull(position)?.id
+                    cardId = mCardId.toString()
                 }
             }
         )
@@ -169,7 +196,25 @@ class PaymentCardActivity : AppCompatActivity() {
         }
 
         btnGotoVoucher.setOnClickListener {
-            startActivity(VoucherActivity.newIntent(this))
+            mMovieBookingModel.checkOut(
+                cinemaDayTimeslotId = cinemaDayTimeslotId,
+                row = row,
+                seatNumber = seatNumber,
+                bookingDate = bookingDate,
+                totalPrice = totalPrice,
+                movieId = movieId,
+                cardId = cardId,
+                cinemaId = cinemaId,
+                snack = snack,
+                onSuccess = {
+                    mMovieBookingNumber = it.bookingNumber.orEmpty()
+                    startActivity(VoucherActivity.newIntent(this, mMovieBookingNumber))
+                    Log.i("CheckOut", mMovieBookingNumber)
+                },
+                onFailure = {
+                    showErrorToast(it, this)
+                }
+            )
         }
     }
 }

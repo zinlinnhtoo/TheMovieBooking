@@ -3,6 +3,7 @@ package com.example.themoviebooking.data.models
 import com.example.themoviebooking.data.vos.*
 import com.example.themoviebooking.network.dataagents.MovieBookingDataAgent
 import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAgentImpl
+import com.example.themoviebooking.network.responses.CheckOutRequest
 
 object MovieBookingModelImpl: MovieBookingModel {
 
@@ -146,6 +147,38 @@ object MovieBookingModelImpl: MovieBookingModel {
     override fun getCard(onSuccess: (List<CardVO>) -> Unit, onFailure: (String) -> Unit) {
         mMovieBookingDataAgent.getCard(
             token = userToken.orEmpty(),
+            onSuccess = onSuccess,
+            onFailure = onFailure
+        )
+    }
+
+    override fun checkOut(
+        cinemaDayTimeslotId: String,
+        row: String,
+        seatNumber: String,
+        bookingDate: String,
+        totalPrice: String,
+        movieId: String,
+        cardId: String,
+        cinemaId: String,
+        snack: List<CarrierSnackVO>,
+        onSuccess: (CheckOutVO) -> Unit,
+        onFailure: (String) -> Unit
+    ) {
+        val mCheckOutRequest = CheckOutRequest(
+            cinemaDayTimeslotId = cinemaDayTimeslotId,
+            row = row,
+            seatNumber = seatNumber,
+            bookingDate = bookingDate,
+            totalPrice = totalPrice,
+            movieId = movieId,
+            cardId = cardId,
+            cinemaId = cinemaId,
+            snack = snack
+        )
+        mMovieBookingDataAgent.checkOut(
+            token = userToken.orEmpty(),
+            checkOutRequest = mCheckOutRequest,
             onSuccess = onSuccess,
             onFailure = onFailure
         )

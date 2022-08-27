@@ -72,4 +72,10 @@ interface TheMovieBookingApi {
     fun getCard(
         @Header("Authorization") token: String
     ): Call<LoginUserResponse>
+
+    @POST(API_CHECKOUT)
+    fun checkOut(
+        @Header("Authorization") token: String,
+        @Body checkOutRequest: CheckOutRequest
+    ): Call<CheckOutResponse>
 }

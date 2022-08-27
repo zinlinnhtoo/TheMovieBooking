@@ -1,6 +1,7 @@
 package com.example.themoviebooking.data.models
 
 import com.example.themoviebooking.data.vos.*
+import com.example.themoviebooking.network.responses.CheckOutResponse
 
 interface MovieBookingModel {
 
@@ -65,6 +66,20 @@ interface MovieBookingModel {
 
     fun getCard(
         onSuccess: (List<CardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun checkOut(
+        cinemaDayTimeslotId: String,
+        row: String,
+        seatNumber: String,
+        bookingDate: String,
+        totalPrice: String,
+        movieId: String,
+        cardId: String,
+        cinemaId: String,
+        snack: List<CarrierSnackVO>,
+        onSuccess: (CheckOutVO) -> Unit,
         onFailure: (String) -> Unit
     )
 }

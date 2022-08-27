@@ -1,6 +1,7 @@
 package com.example.themoviebooking.network.dataagents
 
 import com.example.themoviebooking.data.vos.*
+import com.example.themoviebooking.network.responses.CheckOutRequest
 
 interface MovieBookingDataAgent {
 
@@ -73,6 +74,13 @@ interface MovieBookingDataAgent {
     fun getCard(
         token: String,
         onSuccess: (List<CardVO>) -> Unit,
+        onFailure: (String) -> Unit
+    )
+
+    fun checkOut(
+        token: String,
+        checkOutRequest: CheckOutRequest,
+        onSuccess: (CheckOutVO) -> Unit,
         onFailure: (String) -> Unit
     )
 }

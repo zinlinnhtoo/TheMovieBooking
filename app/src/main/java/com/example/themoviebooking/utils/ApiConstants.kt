@@ -12,6 +12,7 @@ const val API_CINEMA_SEATING_PLAN = "/api/v1/seat-plan"
 const val API_SNACK = "/api/v1/snacks"
 const val API_PAYMENT_METHOD = "/api/v1/payment-methods"
 const val API_CREATE_CARD = "/api/v1/card"
+const val API_CHECKOUT = "/api/v1/checkout"
 
 const val PARAM_MOVIE_ID = "movie_id"
 const val PARAM_DATE = "date"

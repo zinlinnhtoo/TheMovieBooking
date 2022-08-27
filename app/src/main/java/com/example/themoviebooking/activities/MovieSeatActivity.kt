@@ -39,6 +39,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private var mCinemaDayTimeslotId: Int? = null
     private var mDate: String? = null
     private var mMovieId: Int? = null
+    private var mCinemaId: Int? = null
 
     //field for snack activity
     private var mPrice: Double? = 0.0
@@ -52,6 +53,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         const val EXTRA_CINEMA_NAME = "EXTRA_CINEMA_NAME"
         const val EXTRA_DATE = "EXTRA_DATE"
         const val EXTRA_CINEMA_DAY_TIMESLOT_ID = "EXTRA_CINEMA_DAY_TIMESLOT_ID"
+        const val EXTRA_CINEMA_ID = "EXTRA_CINEMA_ID"
         fun newIntent(context: Context,
                       movieTitle: String,
                       movieWeekday: String,
@@ -61,7 +63,8 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
                       cinemaName: String,
                       cinemaDayTimeslotId: Int,
                       date: String,
-                      movieId: Int
+                      movieId: Int,
+                      cinemaId: Int
         ): Intent {
             val intent = Intent(context, MovieSeatActivity::class.java)
             intent.putExtra(EXTRA_MOVIE_TITLE, movieTitle)
@@ -73,6 +76,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
             intent.putExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, cinemaDayTimeslotId)
             intent.putExtra(EXTRA_DATE, date)
             intent.putExtra(EXTRA_MOVIE_ID, movieId)
+            intent.putExtra(EXTRA_CINEMA_ID, cinemaId)
             return intent
         }
     }
@@ -81,6 +85,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_seat)
 
+        mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
         mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
         mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
         mMovieWeekDay = intent?.getStringExtra(EXTRA_MOVIE_WEEK_DAY)
@@ -129,7 +134,17 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
     private fun setUpListener() {
         btnGotoSnack.setOnClickListener {
             mPrice?.let {
-                startActivity(SnackActivity.newIntent(this, it, mCinemaDayTimeslotId ?: 0, mRow, mSeatName, mDate.orEmpty(), mMovieId ?: 0))
+                startActivity(SnackActivity.newIntent(
+                        this,
+                        it,
+                        mCinemaDayTimeslotId ?: 0,
+                        mRow,
+                        mSeatName,
+                        mDate.orEmpty(),
+                        mMovieId ?: 0,
+                        mCinemaId ?: 0
+                    )
+                )
             }
         }
 

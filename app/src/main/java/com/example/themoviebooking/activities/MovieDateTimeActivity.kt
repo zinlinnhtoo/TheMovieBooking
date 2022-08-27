@@ -40,6 +40,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
     private var mCinemaName: String? = null
     private var mDate: String? = null
     private var mCinemaDayTimeslotId: Int? = null
+    private var mCinemaId: Int? = null
 
     private val mMovieBookingModel: MovieBookingModel = MovieBookingModelImpl
 
@@ -99,7 +100,8 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
                     mCinemaName.orEmpty(),
                     mCinemaDayTimeslotId ?: 0,
                     mDate.orEmpty(),
-                    mMovieId ?: 0
+                    mMovieId ?: 0,
+                    mCinemaId ?: 0
                 ))
             }
         }
@@ -140,6 +142,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         mCinemaDayTimeslotId = timeslot.cinemaDayTimeslotId
         mMovieTime = timeslot.startTime
         mCinemaName = cinema.cinema
+        mCinemaId = cinema.cinemaId
         mMovieTimeAdapter.setNewData(mCinemaList)
     }
 

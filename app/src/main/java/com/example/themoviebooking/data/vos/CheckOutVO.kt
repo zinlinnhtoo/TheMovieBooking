@@ -34,7 +34,8 @@ data class CheckOutVO(
     val userName: String?,
 
     @SerializedName("timeslot")
-    val timeslot: CheckOutTimeslotVO,
+    val timeslot: CheckOutTimeslotVO?,
 
     @SerializedName("snacks")
+    val snack: List<SnackVO>?
 )
