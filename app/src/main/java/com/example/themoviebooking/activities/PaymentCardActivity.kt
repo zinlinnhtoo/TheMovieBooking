@@ -127,10 +127,8 @@ class PaymentCardActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == NEW_PAYMENT_CARD_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
                 mMovieBookingModel.getCard(
                     onSuccess = {
                         mCreditCardAdapter.setNewData(it)
