@@ -66,9 +66,7 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
         setUpMovieTimeRecyclerView()
         addNextTwoWeekDate()
 
-        mMoviePosterPath = intent?.getStringExtra(EXTRA_MOVIE_POSTER_PATH)
-        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
-        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
+        getExtraFromMovieDetailActivity()
 
         mMovieDateList.firstOrNull()?.let {
             it.isSelected = true
@@ -82,6 +80,12 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
             mMovieMonth = it.monthInName
             mMovieWeekDayForVoucher = it.weekday
         }
+    }
+
+    private fun getExtraFromMovieDetailActivity() {
+        mMoviePosterPath = intent?.getStringExtra(EXTRA_MOVIE_POSTER_PATH)
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
     }
 
     private fun setUpMovieTimeRecyclerView() {

@@ -92,6 +92,19 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_seat)
 
+        getExtraFromMovieDateTimeActivity()
+        setUpListener()
+        setUpMovieRecyclerView()
+        setUpDataInActivity()
+        mCinemaDayTimeslotId?.let { id ->
+            mDate?.let { date ->
+                requestData(id, date)
+            }
+        }
+
+    }
+
+    private fun getExtraFromMovieDateTimeActivity() {
         mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
         mMovieWeekdayForVoucher = intent?.getStringExtra(EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
         mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
@@ -104,17 +117,6 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
         mCinemaName = intent?.getStringExtra(EXTRA_CINEMA_NAME)
         mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
         mDate = intent?.getStringExtra(EXTRA_DATE)
-
-
-        setUpListener()
-        setUpMovieRecyclerView()
-        setUpDataInActivity()
-        mCinemaDayTimeslotId?.let { id ->
-            mDate?.let { date ->
-                requestData(id, date)
-            }
-        }
-
     }
 
     private fun requestData(
@@ -197,7 +199,7 @@ class MovieSeatActivity : AppCompatActivity(), MovieSeatDelegate {
 
         tvTicket.text = mTotalSeats.toString()
         tvSeat.text = mTakenSeatNames.joinToString(", ")
-        mSeatName = mTakenSeatNames.joinToString(", ")
+        mSeatName = mTakenSeatNames.joinToString(",")
         btnGotoSnack.text = "Buy Ticket for $$mTicketPrice"
     }
 }

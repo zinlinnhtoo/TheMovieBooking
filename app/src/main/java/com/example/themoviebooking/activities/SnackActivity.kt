@@ -100,6 +100,20 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_snack)
 
+        getExtraFromMovieSeatActivity()
+        mPrice?.let {
+            mTotalPrice = it
+            btnGotoPaymentCard.text = "Pay $$it"
+            tvSubTotal.text = "$it$"
+        }
+        setUpListener()
+        setUpSnackRecyclerView()
+        setUpPaymentMethodRecyclerView()
+        requestData()
+
+    }
+
+    private fun getExtraFromMovieSeatActivity() {
         mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
         mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
         mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
@@ -113,19 +127,6 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
         mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
         mPrice = intent?.getDoubleExtra(EXTRA_PRICE_IN_SNACK_BUTTON, 0.0)
-        mPrice?.let {
-            mTotalPrice = it
-            btnGotoPaymentCard.text = "Pay $$it"
-            tvSubTotal.text = "$it$"
-        }
-
-
-
-        setUpListener()
-        setUpSnackRecyclerView()
-        setUpPaymentMethodRecyclerView()
-        requestData()
-
     }
 
     private fun setUpPaymentMethodRecyclerView() {

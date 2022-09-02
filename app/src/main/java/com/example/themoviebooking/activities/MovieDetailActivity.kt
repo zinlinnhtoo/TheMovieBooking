@@ -47,13 +47,16 @@ class MovieDetailActivity : AppCompatActivity() {
         setUpGenreChipRecyclerView()
         setUpListener()
 
-        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        getExtraFromHomeActivity()
         mMovieId?.let {
             requestData(it.toString())
         }
 
-        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
+    }
 
+    private fun getExtraFromHomeActivity() {
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mMovieTitle = intent?.getStringExtra(EXTRA_MOVIE_TITLE)
     }
 
     private fun setUpGenreChipRecyclerView() {

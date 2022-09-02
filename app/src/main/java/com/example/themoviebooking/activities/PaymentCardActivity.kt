@@ -114,53 +114,68 @@ class PaymentCardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_card)
 
-        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
-        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
-        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
-        mMovieWeekdayForVoucher = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
-        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
-        mMovieTime = intent?.getStringExtra(EXTRA_MOVIE_TIME)
-        mSnackJson = intent?.getStringExtra(EXTRA_SNACK_JSON)
+        getExtraFromSnackActivity()
+        toCallNetworkWithExtraData()
+        setUpListener()
+        requestData()
+        setUpCarouselCreditCardRecyclerView()
+    }
+
+    private fun toCallNetworkWithExtraData() {
         mSnackJson?.let {
             val carrierSnackObj = Gson().fromJson(it, CarrierSnackList::class.java)
-//            snack.add(carrierSnackObj)
+    //            snack.add(carrierSnackObj)
             carrierSnackObj.forEach { carrierSnackObj ->
                 snack.add(carrierSnackObj)
             }
         }
-        mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
+
         mCinemaId?.let {
             cinemaId = it.toString()
         }
-        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+
         mMovieId?.let {
             movieId = it.toString()
         }
-        mDate = intent?.getStringExtra(EXTRA_DATE)
+
         mDate?.let {
             bookingDate = it
         }
-        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+
         mSeatName?.let {
             seatNumber = it
         }
-        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+
         mRow?.let {
             row = it
         }
-        mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
+
         mCinemaDayTimeslotId?.let {
             cinemaDayTimeslotId = it.toString()
         }
-        mTotalPrice = intent?.getDoubleExtra(EXTRA_TOTAL_PRICE, 0.0)
+
         mTotalPrice?.let {
             totalPrice = it.toString()
             tvPaymentAmount.text = "$ $it"
         }
+    }
 
-        setUpListener()
-        requestData()
-        setUpCarouselCreditCardRecyclerView()
+    private fun getExtraFromSnackActivity() {
+        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
+        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
+        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
+        mMovieWeekdayForVoucher =
+            intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
+        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
+        mMovieTime = intent?.getStringExtra(EXTRA_MOVIE_TIME)
+        mSnackJson = intent?.getStringExtra(EXTRA_SNACK_JSON)
+        mCinemaId = intent?.getIntExtra(EXTRA_CINEMA_ID, 0)
+        mMovieId = intent?.getIntExtra(EXTRA_MOVIE_ID, 0)
+        mDate = intent?.getStringExtra(EXTRA_DATE)
+        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+        mCinemaDayTimeslotId = intent?.getIntExtra(EXTRA_CINEMA_DAY_TIMESLOT_ID, 0)
+        mTotalPrice = intent?.getDoubleExtra(EXTRA_TOTAL_PRICE, 0.0)
     }
 
     private fun requestData() {

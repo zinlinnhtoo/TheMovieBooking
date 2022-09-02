@@ -61,56 +61,71 @@ class VoucherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_voucher)
 
-        mBookingNumber = intent?.getStringExtra(EXTRA_BOOKING_NUMBER)
+        getExtraFromPaymentActivity()
+        bindUiData()
+        setUpListener()
+    }
+
+    private fun bindUiData() {
         mBookingNumber?.let {
             tvBookingNumber.text = it
         }
 
         var showTimeDate = ""
-        mMovieWeekdayForVoucher = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
-        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
-        mMovieTime = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_TIME)
         mMovieTime?.let { time ->
-             mMovieDay?.let { day ->
-                 mMovieWeekdayForVoucher?.let { week ->
-                     showTimeDate = "$time - $day $week"
-                 }
-             }
+            mMovieDay?.let { day ->
+                mMovieWeekdayForVoucher?.let { week ->
+                    showTimeDate = "$time - $day $week"
+                }
+            }
         }
         tvShowTime.text = showTimeDate
 
-        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
+
         mCinemaName?.let {
             tvTheater.text = it
         }
 
-        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+
         mRow?.let {
             tvRow.text = it
         }
 
-        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+
         mSeatName?.let {
             tvSeat.text = it
         }
 
-        mTotalPrice = intent?.getDoubleExtra(PaymentCardActivity.EXTRA_TOTAL_PRICE, 0.0)
+
         mTotalPrice?.let {
             tvPrice.text = "$ $it"
         }
 
-        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
+
         mMovieTitle?.let {
             tvMovieName.text = it
         }
 
-        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
+
         mMoviePosterPath?.let {
             Glide.with(this)
                 .load("$IMAGE_BASE_URL$it")
                 .into(ivMovieImage)
         }
-        setUpListener()
+    }
+
+    private fun getExtraFromPaymentActivity() {
+        mBookingNumber = intent?.getStringExtra(EXTRA_BOOKING_NUMBER)
+        mMovieWeekdayForVoucher =
+            intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_WEEKDAY_FOR_VOUCHER)
+        mMovieDay = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_DAY)
+        mMovieTime = intent?.getStringExtra(MovieSeatActivity.EXTRA_MOVIE_TIME)
+        mCinemaName = intent?.getStringExtra(MovieSeatActivity.EXTRA_CINEMA_NAME)
+        mRow = intent?.getStringExtra(EXTRA_CINEMA_LIST)
+        mSeatName = intent?.getStringExtra(EXTRA_SEAT_NAME)
+        mTotalPrice = intent?.getDoubleExtra(PaymentCardActivity.EXTRA_TOTAL_PRICE, 0.0)
+        mMovieTitle = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_TITLE)
+        mMoviePosterPath = intent?.getStringExtra(MovieDetailActivity.EXTRA_MOVIE_POSTER_PATH)
     }
 
 

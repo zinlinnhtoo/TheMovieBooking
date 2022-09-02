@@ -21,11 +21,6 @@ class NewPaymentCardActivity : AppCompatActivity() {
         }
     }
 
-    private var mCardNumber: String = ""
-    private var mCardHolder: String = ""
-    private var mExpirationDate: String = ""
-    private var mCvc: String = ""
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_payment_card)
@@ -39,17 +34,11 @@ class NewPaymentCardActivity : AppCompatActivity() {
         }
 
         btnGoBackToCard.setOnClickListener {
-
-            mCardNumber = etCardNumber.text.toString()
-            mCardHolder = etCardHolder.text.toString()
-            mExpirationDate = etExpirationDate.text.toString()
-            mCvc = etCvc.text.toString()
-
             mMovieBookingModel.createCard(
-                cardNumber = mCardNumber,
-                cardHolder = mCardHolder,
-                expirationDate = mExpirationDate,
-                cvc = mCvc,
+                cardNumber = etCardNumber.text.toString(),
+                cardHolder = etCardHolder.text.toString(),
+                expirationDate = etExpirationDate.text.toString(),
+                cvc = etCvc.text.toString(),
                 onSuccess = {
                     val intent = Intent()
                         .putExtra("message", it)
