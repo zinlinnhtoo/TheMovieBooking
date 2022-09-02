@@ -300,7 +300,11 @@ object MovieBookingRetrofitDataAgentImpl: MovieBookingDataAgent {
                     response: Response<CardResponse>
                 ) {
                     if (response.isSuccessful) {
-                        response.body()?.message?.let { onSuccess(it) }
+                        response.body()?.data?.let {
+                            onSuccess(
+                                it.getOrNull(it.lastIndex)?.id.toString()
+                            )
+                        }
                     } else {
                         onFailure(response.message())
                     }

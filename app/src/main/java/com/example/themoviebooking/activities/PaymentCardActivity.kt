@@ -199,8 +199,7 @@ class PaymentCardActivity : AppCompatActivity() {
                     onSuccess = {
                         mCreditCardAdapter.setNewData(it)
                         carouselLayoutManager.scrollToPosition(it.lastIndex)
-                        val messageFromNewPaymentCard = data!!.getStringExtra("message")
-                        Toast.makeText(this, "$messageFromNewPaymentCard", Toast.LENGTH_SHORT).show()
+                        cardId = data?.getStringExtra("message").orEmpty()
                     },
                     onFailure = {
                         showErrorToast(it, this)
