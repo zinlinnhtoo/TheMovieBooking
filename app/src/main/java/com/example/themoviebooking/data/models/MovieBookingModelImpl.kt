@@ -1,13 +1,20 @@
 package com.example.themoviebooking.data.models
 
+import android.content.Context
 import com.example.themoviebooking.data.vos.*
 import com.example.themoviebooking.network.dataagents.MovieBookingDataAgent
 import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAgentImpl
 import com.example.themoviebooking.network.responses.CheckOutRequest
+import com.example.themoviebooking.persistence.MovieBookingDatabase
 
 object MovieBookingModelImpl: MovieBookingModel {
 
     private val mMovieBookingDataAgent: MovieBookingDataAgent = MovieBookingRetrofitDataAgentImpl
+    private var mMovieDatabase: MovieBookingDatabase? = null
+
+    fun initDatabase(context: Context) {
+        mMovieDatabase = MovieBookingDatabase.getDBInstance(context)
+    }
 
     var userToken: String? = null
 
@@ -24,6 +31,8 @@ object MovieBookingModelImpl: MovieBookingModel {
                 val userVO = it.first
                 val token = it.second
 
+                mMovieDatabase?.userDao()?.insertUser(userVO)
+                mMovieDatabase?.userDao()?.getUser()
                 this.userToken = token
 
                 onSuccess()

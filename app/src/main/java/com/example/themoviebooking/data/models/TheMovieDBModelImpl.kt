@@ -1,20 +1,31 @@
 package com.example.themoviebooking.data.models
 
+import android.content.Context
 import com.example.themoviebooking.data.vos.ActorVO
 import com.example.themoviebooking.data.vos.MovieVO
 import com.example.themoviebooking.network.dataagents.TheMovieDBDataAgent
 import com.example.themoviebooking.network.dataagents.TheMovieDBRetrofitDataAgentImpl
+import com.example.themoviebooking.persistence.MovieBookingDatabase
 
-object TheMovieDBModelImpl: TheMovieDBModel {
+object TheMovieDBModelImpl : TheMovieDBModel {
 
     private val mTheMovieDBDataAgent: TheMovieDBDataAgent = TheMovieDBRetrofitDataAgentImpl
+    private var mMovieDatabase: MovieBookingDatabase? = null
+
+    fun initDatabase(context: Context) {
+        mMovieDatabase = MovieBookingDatabase.getDBInstance(context)
+    }
 
     override fun getNowShowingMovie(
         onSuccess: (List<MovieVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        onSuccess(mMovieDatabase?.movieDao()?.getAllMovies() ?: listOf())
         mTheMovieDBDataAgent.getNowShowingMovie(
-            onSuccess = onSuccess,
+            onSuccess = {
+                mMovieDatabase?.movieDao()?.insertMovies(it)
+                onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
@@ -34,9 +45,16 @@ object TheMovieDBModelImpl: TheMovieDBModel {
         onSuccess: (MovieVO) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        val movieFromDatabase = mMovieDatabase?.movieDao()?.getMovieById(movieId = movieId.toInt())
+        movieFromDatabase?.let(onSuccess)
         mTheMovieDBDataAgent.getMovieDetail(
             movieId = movieId,
-            onSuccess = onSuccess,
+            onSuccess = {
+                val movieFromDatabase =
+                    mMovieDatabase?.movieDao()?.getMovieById(movieId = movieId.toInt())
+                mMovieDatabase?.movieDao()?.insertSingleMovie(movieFromDatabase)
+                onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
