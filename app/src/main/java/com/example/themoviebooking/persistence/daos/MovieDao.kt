@@ -20,6 +20,9 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = :movieId")
     fun getMovieById(movieId: Int): MovieVO?
 
+    @Query("SELECT * FROM movies WHERE type = :type")
+    fun getMoviesByType(type: String): List<MovieVO>
+
     @Query("DELETE FROM movies")
     fun deleteAllMovies()
 }

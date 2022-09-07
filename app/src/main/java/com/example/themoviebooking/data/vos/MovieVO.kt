@@ -106,10 +106,15 @@ data class MovieVO(
 
     @SerializedName("vote_count")
     @ColumnInfo(name = "vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+
+    @ColumnInfo(name = "type")
+    var type: String?
 
 ) {
     fun getRatingBasedOnFiveStars(): Float {
         return voteAverage?.div(2)?.toFloat() ?: 0.0f
     }
 }
+const val NOW_SHOWING = "NOW_SHOWING"
+const val COMING_SOON = "COMING_SOON"

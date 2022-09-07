@@ -38,6 +38,9 @@ data class UserVO(
 
     @SerializedName("cards")
     @ColumnInfo(name = "cards")
-    val cards: List<CardVO>?
+    val cards: List<CardVO>?,
+
+    @ColumnInfo(name = "token")
+    var token: String?
 
 )

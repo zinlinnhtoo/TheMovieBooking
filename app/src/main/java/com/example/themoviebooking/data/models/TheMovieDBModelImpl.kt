@@ -2,7 +2,9 @@ package com.example.themoviebooking.data.models
 
 import android.content.Context
 import com.example.themoviebooking.data.vos.ActorVO
+import com.example.themoviebooking.data.vos.COMING_SOON
 import com.example.themoviebooking.data.vos.MovieVO
+import com.example.themoviebooking.data.vos.NOW_SHOWING
 import com.example.themoviebooking.network.dataagents.TheMovieDBDataAgent
 import com.example.themoviebooking.network.dataagents.TheMovieDBRetrofitDataAgentImpl
 import com.example.themoviebooking.persistence.MovieBookingDatabase
@@ -20,9 +22,12 @@ object TheMovieDBModelImpl : TheMovieDBModel {
         onSuccess: (List<MovieVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        onSuccess(mMovieDatabase?.movieDao()?.getAllMovies() ?: listOf())
+        onSuccess(mMovieDatabase?.movieDao()?.getMoviesByType(type = NOW_SHOWING) ?: listOf())
         mTheMovieDBDataAgent.getNowShowingMovie(
             onSuccess = {
+                it.forEach { movie ->
+                    movie.type = NOW_SHOWING
+                }
                 mMovieDatabase?.movieDao()?.insertMovies(it)
                 onSuccess(it)
             },
@@ -34,8 +39,15 @@ object TheMovieDBModelImpl : TheMovieDBModel {
         onSuccess: (List<MovieVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        onSuccess(mMovieDatabase?.movieDao()?.getMoviesByType(type = COMING_SOON) ?: listOf())
         mTheMovieDBDataAgent.getComingSoonMovie(
-            onSuccess = onSuccess,
+            onSuccess = {
+                    it.forEach { movie ->
+                        movie.type = COMING_SOON
+                    }
+                    mMovieDatabase?.movieDao()?.insertMovies(it)
+                    onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
@@ -52,6 +64,7 @@ object TheMovieDBModelImpl : TheMovieDBModel {
             onSuccess = {
                 val movieFromDatabase =
                     mMovieDatabase?.movieDao()?.getMovieById(movieId = movieId.toInt())
+                it.type = movieFromDatabase?.type
                 mMovieDatabase?.movieDao()?.insertSingleMovie(movieFromDatabase)
                 onSuccess(it)
             },
