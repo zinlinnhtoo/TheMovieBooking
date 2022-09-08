@@ -121,6 +121,7 @@ object MovieBookingModelImpl : MovieBookingModel {
         onSuccess: (List<MovieSeatVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
         mMovieBookingDataAgent.getCinemaSeatingPlan(
             token = userToken.orEmpty(),
             cinemaDayTimeslotId = cinemaDayTimeslotId,
@@ -131,9 +132,14 @@ object MovieBookingModelImpl : MovieBookingModel {
     }
 
     override fun getSnack(onSuccess: (List<SnackVO>) -> Unit, onFailure: (String) -> Unit) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
+        onSuccess(mMovieDatabase?.snackDao()?.getAllSnacks() ?: listOf())
         mMovieBookingDataAgent.getSnack(
             token = userToken.orEmpty(),
-            onSuccess = onSuccess,
+            onSuccess = {
+                mMovieDatabase?.snackDao()?.insertSnacks(it)
+                onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
