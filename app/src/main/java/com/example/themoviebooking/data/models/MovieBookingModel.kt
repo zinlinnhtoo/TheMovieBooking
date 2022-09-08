@@ -1,7 +1,6 @@
 package com.example.themoviebooking.data.models
 
 import com.example.themoviebooking.data.vos.*
-import com.example.themoviebooking.network.responses.CheckOutResponse
 
 interface MovieBookingModel {
 
@@ -55,7 +54,7 @@ interface MovieBookingModel {
     )
 
     fun getPaymentMethod(
-        onSuccess: (List<PaymentCardVO>) -> Unit,
+        onSuccess: (List<PaymentMethodVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

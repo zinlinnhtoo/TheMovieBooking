@@ -1,9 +1,9 @@
 package com.example.themoviebooking.delegates
 
-import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.data.vos.PaymentMethodVO
 
 interface PaymentMethodDelegate {
     fun onTapPaymentMethod(
-       paymentMethod: PaymentCardVO
+       paymentMethod: PaymentMethodVO
     )
 }

@@ -57,7 +57,7 @@ interface MovieBookingDataAgent {
 
     fun getPaymentMethod(
         token: String,
-        onSuccess: (List<PaymentCardVO>) -> Unit,
+        onSuccess: (List<PaymentMethodVO>) -> Unit,
         onFailure: (String) -> Unit
     )
 

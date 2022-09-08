@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
-import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.data.vos.PaymentMethodVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import com.example.themoviebooking.viewholders.PaymentMethodViewHolder
 
@@ -13,7 +13,7 @@ class PaymentMethodAdapter(
     private val mDelegate: PaymentMethodDelegate
 ): RecyclerView.Adapter<PaymentMethodViewHolder>() {
 
-    private var mPaymentCardList: List<PaymentCardVO> = listOf()
+    private var mPaymentCardList: List<PaymentMethodVO> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaymentMethodViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_payment_method, parent, false)
@@ -29,7 +29,7 @@ class PaymentMethodAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setNewData(paymentCardList: List<PaymentCardVO>) {
+    fun setNewData(paymentCardList: List<PaymentMethodVO>) {
         mPaymentCardList = paymentCardList
         notifyDataSetChanged()
     }

@@ -17,7 +17,7 @@ import com.example.themoviebooking.adapters.SnackAdapter
 import com.example.themoviebooking.data.models.MovieBookingModel
 import com.example.themoviebooking.data.models.MovieBookingModelImpl
 import com.example.themoviebooking.data.vos.CarrierSnackVO
-import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.data.vos.PaymentMethodVO
 import com.example.themoviebooking.data.vos.SnackVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import com.example.themoviebooking.delegates.SnackToggleButtonDelegate
@@ -47,7 +47,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
     private var mMovieTitle: String? = null
     private var mMoviePosterPath: String? = null
 
-    private var mPaymentMethodList: MutableList<PaymentCardVO> = mutableListOf()
+    private var mPaymentMethodList: MutableList<PaymentMethodVO> = mutableListOf()
     private var mSnackList: MutableList<SnackVO> = mutableListOf()
     private var mTotalPrice: Double = 0.0
     private var mTotalSnackPrice: Double = 0.0
@@ -191,7 +191,7 @@ class SnackActivity : AppCompatActivity(), PaymentMethodDelegate, SnackToggleBut
         )
     }
 
-    override fun onTapPaymentMethod(paymentMethod: PaymentCardVO) {
+    override fun onTapPaymentMethod(paymentMethod: PaymentMethodVO) {
         mPaymentMethodList.forEach{
             it.isSelected = it.id == paymentMethod.id
         }

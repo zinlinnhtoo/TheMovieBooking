@@ -4,7 +4,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviebooking.R
-import com.example.themoviebooking.data.vos.PaymentCardVO
+import com.example.themoviebooking.data.vos.PaymentMethodVO
 import com.example.themoviebooking.delegates.PaymentMethodDelegate
 import kotlinx.android.synthetic.main.view_holder_payment_method.view.*
 
@@ -13,7 +13,7 @@ class PaymentMethodViewHolder(
     private val mDelegate: PaymentMethodDelegate
 ) : RecyclerView.ViewHolder(itemView) {
 
-    private var mPaymentMethod: PaymentCardVO? = null
+    private var mPaymentMethod: PaymentMethodVO? = null
 
     init {
         itemView.setOnClickListener {
@@ -23,12 +23,12 @@ class PaymentMethodViewHolder(
         }
     }
 
-    fun bindData(paymentCardVO: PaymentCardVO) {
-        mPaymentMethod = paymentCardVO
-        itemView.tvCardTitle.text = paymentCardVO.name
-        itemView.tvCardDescription.text = paymentCardVO.description
+    fun bindData(paymentMethodVO: PaymentMethodVO) {
+        mPaymentMethod = paymentMethodVO
+        itemView.tvCardTitle.text = paymentMethodVO.name
+        itemView.tvCardDescription.text = paymentMethodVO.description
 
-        if (paymentCardVO.isSelected == true) {
+        if (paymentMethodVO.isSelected == true) {
             itemView.tvCardTitle.setTextColor(
                 ContextCompat.getColor(
                     itemView.context,

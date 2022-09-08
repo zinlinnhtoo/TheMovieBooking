@@ -4,21 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.themoviebooking.data.vos.CinemaVO
-import com.example.themoviebooking.data.vos.MovieVO
-import com.example.themoviebooking.data.vos.SnackVO
-import com.example.themoviebooking.data.vos.UserVO
-import com.example.themoviebooking.persistence.daos.CinemaDao
-import com.example.themoviebooking.persistence.daos.MovieDao
-import com.example.themoviebooking.persistence.daos.SnackDao
-import com.example.themoviebooking.persistence.daos.UserDao
+import com.example.themoviebooking.data.vos.*
+import com.example.themoviebooking.persistence.daos.*
 
 @Database(
     entities = [
         UserVO::class,
         MovieVO::class,
         CinemaVO::class,
-        SnackVO::class
+        SnackVO::class,
+        PaymentMethodVO::class
     ],
     version = 1,
     exportSchema = false
@@ -49,4 +44,5 @@ abstract class MovieBookingDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun cinemaDao(): CinemaDao
     abstract fun snackDao(): SnackDao
+    abstract fun paymentMethodDao(): PaymentMethodDao
 }

@@ -77,6 +77,7 @@ object MovieBookingModelImpl : MovieBookingModel {
 
     override fun getUser(onSuccess: (UserVO) -> Unit, onFailure: (String) -> Unit) {
         userToken = mMovieDatabase?.userDao()?.getToken()
+        mMovieDatabase?.userDao()?.getUser()?.let { onSuccess(it) }
         mMovieBookingDataAgent.getUser(
             token = userToken.orEmpty(),
             onSuccess = onSuccess,
@@ -146,12 +147,17 @@ object MovieBookingModelImpl : MovieBookingModel {
     }
 
     override fun getPaymentMethod(
-        onSuccess: (List<PaymentCardVO>) -> Unit,
+        onSuccess: (List<PaymentMethodVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
+        onSuccess(mMovieDatabase?.paymentMethodDao()?.getAllPaymentMethod() ?: listOf())
         mMovieBookingDataAgent.getPaymentMethod(
             token = userToken.orEmpty(),
-            onSuccess = onSuccess,
+            onSuccess = {
+                mMovieDatabase?.paymentMethodDao()?.insertPaymentMethod(it)
+                onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
@@ -178,7 +184,7 @@ object MovieBookingModelImpl : MovieBookingModel {
     override fun getCard(onSuccess: (List<CardVO>) -> Unit, onFailure: (String) -> Unit) {
         userToken = mMovieDatabase?.userDao()?.getToken()
         val cardListFromDatabase = mMovieDatabase?.userDao()?.getCard()
-        val cardArrayList =  Gson().fromJson(cardListFromDatabase, CardList::class.java)
+        val cardArrayList = Gson().fromJson(cardListFromDatabase, CardList::class.java)
         val cardList: MutableList<CardVO> = mutableListOf()
         cardArrayList.forEach {
             cardList.add(it)
