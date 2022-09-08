@@ -66,8 +66,9 @@ object MovieBookingModelImpl : MovieBookingModel {
             onSuccess = {
                 val userVO = it.first
                 val token = it.second
-
-                this.userToken = token
+                userVO.token = token
+                mMovieDatabase?.userDao()?.insertUser(userVO)
+                this.userToken = mMovieDatabase?.userDao()?.getToken()
 
                 onSuccess()
             },
