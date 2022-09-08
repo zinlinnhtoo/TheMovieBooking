@@ -18,3 +18,5 @@ data class CardVO(
     @SerializedName("card_type")
     val cardType: String?
 )
+
+class CardList: ArrayList<CardVO>()

@@ -6,6 +6,7 @@ import com.example.themoviebooking.network.dataagents.MovieBookingDataAgent
 import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAgentImpl
 import com.example.themoviebooking.network.responses.CheckOutRequest
 import com.example.themoviebooking.persistence.MovieBookingDatabase
+import com.google.gson.Gson
 
 object MovieBookingModelImpl : MovieBookingModel {
 
@@ -175,6 +176,14 @@ object MovieBookingModelImpl : MovieBookingModel {
     }
 
     override fun getCard(onSuccess: (List<CardVO>) -> Unit, onFailure: (String) -> Unit) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
+        val cardListFromDatabase = mMovieDatabase?.userDao()?.getCard()
+        val cardArrayList =  Gson().fromJson(cardListFromDatabase, CardList::class.java)
+        val cardList: MutableList<CardVO> = mutableListOf()
+        cardArrayList.forEach {
+            cardList.add(it)
+        }
+//        onSuccess(cardList)
         mMovieBookingDataAgent.getCard(
             token = userToken.orEmpty(),
             onSuccess = onSuccess,

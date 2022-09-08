@@ -179,6 +179,12 @@ class PaymentCardActivity : AppCompatActivity() {
     }
 
     private fun requestData() {
+        mMovieBookingModel.getUser(
+            onSuccess = {},
+            onFailure = {
+                showErrorToast(it, this)
+            }
+        )
         mMovieBookingModel.getCard(
             onSuccess = {
                 mCardList = it.toMutableList()
