@@ -9,7 +9,7 @@ import com.example.themoviebooking.data.vos.UserVO
 import com.example.themoviebooking.persistence.daos.MovieDao
 import com.example.themoviebooking.persistence.daos.UserDao
 
-@Database(entities = [UserVO::class, MovieVO::class], version = 2, exportSchema = false)
+@Database(entities = [UserVO::class, MovieVO::class], version = 1, exportSchema = false)
 abstract class MovieBookingDatabase: RoomDatabase() {
 
     companion object {

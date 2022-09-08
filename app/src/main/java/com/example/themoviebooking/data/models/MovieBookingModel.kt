@@ -5,6 +5,10 @@ import com.example.themoviebooking.network.responses.CheckOutResponse
 
 interface MovieBookingModel {
 
+    fun getTokenFromWelcome(
+        onSuccess: (Boolean) -> Unit
+    )
+
     fun getLoginUser(
         email: String,
         password: String,

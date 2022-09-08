@@ -18,6 +18,16 @@ object MovieBookingModelImpl: MovieBookingModel {
 
     var userToken: String? = null
 
+    override fun getTokenFromWelcome(onSuccess: (Boolean) -> Unit) {
+        val tokenFromDatabase = mMovieDatabase?.userDao()?.getToken()
+        if (tokenFromDatabase != null) {
+            onSuccess(true)
+        } else {
+            onSuccess(false)
+        }
+
+    }
+
     override fun getLoginUser(
         email: String,
         password: String,
@@ -31,9 +41,8 @@ object MovieBookingModelImpl: MovieBookingModel {
                 val userVO = it.first
                 val token = it.second
                 userVO.token = token
-                this.userToken = token
-                
                 mMovieDatabase?.userDao()?.insertUser(userVO)
+                this.userToken = mMovieDatabase?.userDao()?.getToken()
                 onSuccess()
             },
             onFailure = onFailure
@@ -66,6 +75,7 @@ object MovieBookingModelImpl: MovieBookingModel {
     }
 
     override fun getUser(onSuccess: (UserVO) -> Unit, onFailure: (String) -> Unit) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
         mMovieBookingDataAgent.getUser(
             token = userToken.orEmpty(),
             onSuccess = onSuccess,
@@ -74,10 +84,12 @@ object MovieBookingModelImpl: MovieBookingModel {
     }
 
     override fun getLogout(onSuccess: (String) -> Unit, onFailure: (String) -> Unit) {
+        userToken = mMovieDatabase?.userDao()?.getToken()
         mMovieBookingDataAgent.getLogout(
             token = userToken.orEmpty(),
             onSuccess = {
                 this.userToken = null
+                mMovieDatabase?.userDao()?.deleteUser()
                 onSuccess(it)
             },
             onFailure = onFailure

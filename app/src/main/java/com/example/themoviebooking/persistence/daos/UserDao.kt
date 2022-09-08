@@ -14,6 +14,9 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getUser(): UserVO?
 
+    @Query("SELECT token FROM users")
+    fun getToken(): String?
+
     @Query("DELETE FROM users")
     fun deleteUser()
 }
