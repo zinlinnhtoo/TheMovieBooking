@@ -7,7 +7,7 @@ import com.example.themoviebooking.network.dataagents.MovieBookingRetrofitDataAg
 import com.example.themoviebooking.network.responses.CheckOutRequest
 import com.example.themoviebooking.persistence.MovieBookingDatabase
 
-object MovieBookingModelImpl: MovieBookingModel {
+object MovieBookingModelImpl : MovieBookingModel {
 
     private val mMovieBookingDataAgent: MovieBookingDataAgent = MovieBookingRetrofitDataAgentImpl
     private var mMovieDatabase: MovieBookingDatabase? = null
@@ -102,11 +102,15 @@ object MovieBookingModelImpl: MovieBookingModel {
         onSuccess: (List<CinemaVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        onSuccess(mMovieDatabase?.cinemaDao()?.getAllCinemas() ?: listOf())
         mMovieBookingDataAgent.getCinemaDayTimeslot(
             token = userToken.orEmpty(),
             movieId = movieId,
             date = date,
-            onSuccess = onSuccess,
+            onSuccess = {
+                mMovieDatabase?.cinemaDao()?.insertCinemas(it)
+                onSuccess(it)
+            },
             onFailure = onFailure
         )
     }
