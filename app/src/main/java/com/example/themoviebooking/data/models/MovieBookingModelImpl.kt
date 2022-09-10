@@ -105,11 +105,20 @@ object MovieBookingModelImpl : MovieBookingModel {
         onSuccess: (List<CinemaVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
+        val dateCinemaAndTimeslot = mMovieDatabase?.dateCinemaAndTimeslot()?.getCinemaListByDate(date)
+        dateCinemaAndTimeslot?.forEach {
+            it.cinemas?.let { cinemaList -> onSuccess(cinemaList) }
+        }
         mMovieBookingDataAgent.getCinemaDayTimeslot(
             token = userToken.orEmpty(),
             movieId = movieId,
             date = date,
             onSuccess = {
+                val dateCinemaAndTimeslot = DateCinemaAndTimeslotVO(
+                    date = date,
+                    cinemas = it
+                )
+                mMovieDatabase?.dateCinemaAndTimeslot()?.insertCinemaListWithDate(dateCinemaAndTimeslot)
                 onSuccess(it)
             },
             onFailure = onFailure

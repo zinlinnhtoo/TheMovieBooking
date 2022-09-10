@@ -80,6 +80,10 @@ class MovieDateTimeActivity : AppCompatActivity(), MovieDateDelegate, MovieTimeD
             mMovieMonth = it.monthInName
             mMovieWeekDayForVoucher = it.weekday
         }
+
+        mMovieDateList.forEach {
+            requestTimeslotData(it.formattedDate())
+        }
     }
 
     private fun getExtraFromMovieDetailActivity() {

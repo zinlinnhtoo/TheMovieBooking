@@ -12,7 +12,8 @@ import com.example.themoviebooking.persistence.daos.*
         UserVO::class,
         MovieVO::class,
         SnackVO::class,
-        PaymentMethodVO::class
+        PaymentMethodVO::class,
+        DateCinemaAndTimeslotVO::class
     ],
     version = 1,
     exportSchema = false
@@ -43,4 +44,5 @@ abstract class MovieBookingDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun snackDao(): SnackDao
     abstract fun paymentMethodDao(): PaymentMethodDao
+    abstract fun dateCinemaAndTimeslot(): DateCinemaAndTimeslotDao
 }
