@@ -117,8 +117,8 @@ class PaymentCardActivity : AppCompatActivity() {
         getExtraFromSnackActivity()
         toCallNetworkWithExtraData()
         setUpListener()
-        requestData()
         setUpCarouselCreditCardRecyclerView()
+        requestData()
     }
 
     private fun toCallNetworkWithExtraData() {

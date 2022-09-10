@@ -190,7 +190,7 @@ object MovieBookingModelImpl : MovieBookingModel {
         cardArrayList.forEach {
             cardList.add(it)
         }
-//        onSuccess(cardList)
+        onSuccess(cardList)
         mMovieBookingDataAgent.getCard(
             token = userToken.orEmpty(),
             onSuccess = onSuccess,
