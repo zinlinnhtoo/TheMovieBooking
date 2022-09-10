@@ -105,13 +105,11 @@ object MovieBookingModelImpl : MovieBookingModel {
         onSuccess: (List<CinemaVO>) -> Unit,
         onFailure: (String) -> Unit
     ) {
-        onSuccess(mMovieDatabase?.cinemaDao()?.getAllCinemas() ?: listOf())
         mMovieBookingDataAgent.getCinemaDayTimeslot(
             token = userToken.orEmpty(),
             movieId = movieId,
             date = date,
             onSuccess = {
-                mMovieDatabase?.cinemaDao()?.insertCinemas(it)
                 onSuccess(it)
             },
             onFailure = onFailure

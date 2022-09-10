@@ -11,7 +11,6 @@ import com.example.themoviebooking.persistence.daos.*
     entities = [
         UserVO::class,
         MovieVO::class,
-        CinemaVO::class,
         SnackVO::class,
         PaymentMethodVO::class
     ],
@@ -42,7 +41,6 @@ abstract class MovieBookingDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun movieDao(): MovieDao
-    abstract fun cinemaDao(): CinemaDao
     abstract fun snackDao(): SnackDao
     abstract fun paymentMethodDao(): PaymentMethodDao
 }
